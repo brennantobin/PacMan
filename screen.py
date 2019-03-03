@@ -1,4 +1,5 @@
 import pygame
+from time import sleep
 
 
 class Screen:
@@ -10,11 +11,11 @@ class Screen:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.rect = self.screen.get_rect()
         self.game_active = False
-        self.reset_game = True
         self.score_active = False
         self.semiactive = False
         self.count = 0
         self.ghosts_destroyed = 0
+        self.reset_game = True
 
     def update(self, pacmen, ghosts):
         try:
@@ -69,10 +70,35 @@ class Screen:
         buttons.update()
         pygame.display.flip()
 
-    def game_screen(self, maze, scoreboard):
+    def game_screen(self, maze, node_maze, scoreboard):
         self.bg_color = (0, 0, 0)
         maze.blitme()
+        node_maze.blitme()
         scoreboard.show_score()
+        pygame.display.flip()
+
+    def reset_the_game(self, maze, scoreboard, pacman, ghosts):
+        sleep(0.1)
+        maze.first = True
+        maze.bricks = []
+        maze.barriers = []
+        maze.fill_powerpills()
+        maze.fill_dots()
+        maze.blitme()
+        scoreboard.prep_level()
+        scoreboard.prep_pacman()
+        pacman.ismoving_right = False
+        pacman.ismoving_left = False
+        pacman.ismoving_down = False
+        pacman.ismoving_up = False
+        pacman.ismoving = False
+        pacman.change_location(597, 585)
+        location_counter = 0
+        for ghost in ghosts:
+            ghost.change_location(560 + location_counter, 390)
+            # ghost.ismoving_up = True
+            # ghost.ismoving = True
+            location_counter += 30
         pygame.display.flip()
 
     def make_title(self, title, font_size, color, y_variant, x_variant):

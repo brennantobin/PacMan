@@ -25,8 +25,10 @@ pacman.is_big = True
 pacmen.add(pacman)
 
 scoreboard = Scoreboard(screen, pacmen, ghosts)
-# maze = Maze(screen, 1, 'pacmanportalmaze.txt', 'block_blue', 'shield', 'dot')
+
 maze = Maze(screen, mazefile='pacmanportalmaze.txt', brickfile='square', shieldfile='shield',
+            dotfile='dot', powerpillfile='powerpill')
+node_maze = Maze(screen, mazefile='nodes.txt', brickfile='square', shieldfile='shield',
             dotfile='dot', powerpillfile='powerpill')
 
 
@@ -110,24 +112,23 @@ def run_game():
                     ghosts.add(Ghost(screen, ghost_counter + color))
                     ghost_counter += 15
                 for ghost in ghosts:
-                    ghost.change_location(580 + location_counter, 350)
-                    ghost.ismoving_up = True
-                    ghost.ismoving = True
+                    ghost.change_location(560 + location_counter, 390)
                     location_counter += 30
                 pacman3 = PacMan(screen, pacmen, ghosts)
-                pacman3.change_location(625, 585)
+                pacman3.change_location(597, 585)
                 pacmen.add(pacman3)
                 screen.reset_game = False
             ghosts.update()
             pacmen.update()
-            screen.game_screen(maze, scoreboard)
+            screen.game_screen(maze, node_maze, scoreboard)
             events.check_events(buttons, play_button, score_button, back_button, pacmen,
                                 ghosts, screen, scoreboard)
             screen.update(pacmen, ghosts)
 
             events.check_pacman_collision(pacmen, ghosts)
             for i in pacmen:
-                events.hit_block(scoreboard, i, maze, ghosts)
+                events.hit_block(scoreboard, i, maze, ghosts, True, screen, maze, node_maze)
+                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, maze, node_maze)
 
 
 run_game()

@@ -42,13 +42,13 @@ class Ghost(Sprite):
         self.eye_up = (163, 81, 15, 15)
         self.eye_down = (180, 81, 15, 15)
 
-        self.position = self.up
+        self.position = [self.up, self.up_in]
         self.location_x = 100
         self.location_y = 220
         self.screen = screen
         self.sprite_sheet = SpriteSheet('sprites/pacman.png')
 
-        self.image = self.sprite_sheet.image_at(self.position, None)
+        self.image = self.sprite_sheet.image_at(self.position[0], None)
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
         self.rect.x = self.location_x
@@ -179,6 +179,7 @@ class Ghost(Sprite):
             if self.last == 0:
                 self.last = now
             if self.last + self.wait_count < now:
+                print(self.position)
                 self.position = self.position[self.animation_counter]
                 self.image = self.sprite_sheet.image_at(self.position, None)
                 self.image = pygame.transform.scale(self.image, (30, 30))

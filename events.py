@@ -66,7 +66,7 @@ def check_pacman_collision(pacmen, ghosts):
                 ghost.ismoving = False
 
 
-def hit_block(scoreboard, pacman, maze, ghosts):
+def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, maze1, maze2):
     for i in range(len(maze.bricks)):
         for rect in maze.barriers:
             if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):
@@ -109,15 +109,16 @@ def hit_block(scoreboard, pacman, maze, ghosts):
     #                     return
 #
     k = len(maze.dots)
-    if k == 0:
-        scoreboard.level += 1
-        scoreboard.prep_level()
+    if change_score:
+        if k == 0:
+            screen.reset_the_game(maze, scoreboard, pacman, ghosts)
     for j in range(k):
         if pygame.Rect.colliderect(pacman.rect, maze.dots[j]):
             del(maze.dots[j])
-            scoreboard.score += scoreboard.dot_points
-            scoreboard.prep_score()
-            break
+            if change_score:
+                scoreboard.score += scoreboard.dot_points
+                scoreboard.prep_score()
+                break
     for l in range(len(maze.powerpills)):
         if pygame.Rect.colliderect(pacman.rect, maze.powerpills[l]):
             del(maze.powerpills[l])
@@ -128,6 +129,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.a)):
         if pygame.Rect.colliderect(pacman.rect, maze.a[l]):
+            if not pacman.a:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.a[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.a[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.a[l]).center
+                pacman.a = True
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = False
             pacman.up_allowed = False
@@ -136,7 +157,6 @@ def hit_block(scoreboard, pacman, maze, ghosts):
             pacman.left_stopper = False
             pacman.up_stopper = False
             pacman.down_stopper = False
-            pacman.rect = maze.a[l].rect
             if pacman.ismoving_right:
                 pacman.right_stopper = True
             if pacman.next_direction == 'left':
@@ -144,6 +164,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.b)):
         if pygame.Rect.colliderect(pacman.rect, maze.b[l]):
+            if not pacman.b:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.b[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.b[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.b[l]).center
+                pacman.b = True
+            pacman.a = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = False
             pacman.right_allowed = True
             pacman.up_allowed = False
@@ -159,6 +199,21 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.c)):
         if pygame.Rect.colliderect(pacman.rect, maze.c[l]):
+            if not pacman.c:
+                pacman.rect.centerx = (maze.c[l]).centerx
+                pacman.c = True
+            pacman.a = False
+            pacman.b = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.dont_stop = True
             pacman.left_allowed = False
             pacman.right_allowed = False
@@ -173,6 +228,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.d)):
         if pygame.Rect.colliderect(pacman.rect, maze.d[l]):
+            if not pacman.d:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.d[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.d[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.d[l]).center
+                pacman.d = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = False
             pacman.up_allowed = True
@@ -190,6 +265,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.e)):
         if pygame.Rect.colliderect(pacman.rect, maze.e[l]):
+            if not pacman.e:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.e[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.e[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.e[l]).center
+                pacman.e = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.f = False
+            pacman.g = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = False
             pacman.right_allowed = True
             pacman.up_allowed = True
@@ -207,6 +302,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.f)):
         if pygame.Rect.colliderect(pacman.rect, maze.f[l]):
+            if not pacman.f:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.f[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.f[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.f[l]).center
+                pacman.f = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.g = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = False
             pacman.up_allowed = False
@@ -224,6 +339,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.g)):
         if pygame.Rect.colliderect(pacman.rect, maze.g[l]):
+            if not pacman.g:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.g[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.g[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.g[l]).center
+                pacman.g = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.h = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = False
             pacman.right_allowed = True
             pacman.up_allowed = False
@@ -241,7 +376,21 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.h)):
         if pygame.Rect.colliderect(pacman.rect, maze.h[l]):
-            pacman.rect.center = (maze.h[l]).center
+            if not pacman.h:
+                pacman.rect.centery = (maze.h[l]).centery
+                pacman.h = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = True
             pacman.up_allowed = False
@@ -256,6 +405,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.i)):
         if pygame.Rect.colliderect(pacman.rect, maze.i[l]):
+            if not pacman.i:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.i[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.i[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.i[l]).center
+                pacman.i = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.h = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = True
             pacman.up_allowed = True
@@ -271,6 +440,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.j)):
         if pygame.Rect.colliderect(pacman.rect, maze.j[l]):
+            if not pacman.j:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.j[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.j[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.j[l]).center
+                pacman.j = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.i = False
+            pacman.h = False
+            pacman.k = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = True
             pacman.up_allowed = False
@@ -286,6 +475,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.k)):
         if pygame.Rect.colliderect(pacman.rect, maze.k[l]):
+            if not pacman.k:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.k[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.k[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.k[l]).center
+                pacman.k = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.i = False
+            pacman.j = False
+            pacman.h = False
+            pacman.l = False
+            pacman.m = False
             pacman.left_allowed = False
             pacman.right_allowed = True
             pacman.up_allowed = True
@@ -301,6 +510,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.l)):
         if pygame.Rect.colliderect(pacman.rect, maze.l[l]):
+            if not pacman.l:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.l[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.l[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.l[l]).center
+                pacman.l = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.h = False
+            pacman.m = False
             pacman.left_allowed = True
             pacman.right_allowed = False
             pacman.up_allowed = True
@@ -316,6 +545,26 @@ def hit_block(scoreboard, pacman, maze, ghosts):
 
     for l in range(len(maze.m)):
         if pygame.Rect.colliderect(pacman.rect, maze.m[l]):
+            if not pacman.m:
+                if pacman.ismoving_right or pacman.ismoving_left:
+                    pacman.rect.centery = (maze.m[l]).centery
+                if pacman.ismoving_up or pacman.ismoving_down:
+                    pacman.rect.centerx = (maze.m[l]).centerx
+                if not pacman.ismoving:
+                    pacman.rect.center = (maze.m[l]).center
+                pacman.m = True
+            pacman.a = False
+            pacman.b = False
+            pacman.c = False
+            pacman.d = False
+            pacman.e = False
+            pacman.f = False
+            pacman.g = False
+            pacman.i = False
+            pacman.j = False
+            pacman.k = False
+            pacman.l = False
+            pacman.h = False
             pacman.left_allowed = True
             pacman.right_allowed = True
             pacman.up_allowed = True

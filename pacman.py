@@ -21,6 +21,21 @@ class PacMan(Sprite):
         self.left_allowed = False
         self.up_allowed = False
         self.down_allowed = False
+
+        self.a = False
+        self.b = False
+        self.c = False
+        self.d = False
+        self.e = False
+        self.f = False
+        self.g = False
+        self.h = False
+        self.i = False
+        self.j = False
+        self.k = False
+        self.l = False
+        self.m = False
+
         # each of these are coordinates to the location and size
         # of the sprite on the sheet
         self.is_big = False

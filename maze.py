@@ -36,7 +36,7 @@ class Maze:
             self.dot = ImageRect(screen, dotfile, 3, 3)
             self.powerpill = ImageRect(screen, powerpillfile, 15, 15)
             self.barrier = ImageRect(screen, shieldfile, sz, sz)
-            self.node = ImageRect(screen, 'node', 15, 15)
+            self.node = ImageRect(screen, 'node', 1, 1)
             self.deltax = self.deltay = Maze.BRICK_SIZE
 
             self.first = True
@@ -88,11 +88,33 @@ class Maze:
                 if col == 'm':
                     self.m.append(pygame.Rect(ncol * dx, nrow * dy, w, h))
 
+    def fill_dots(self):
+        r = self.brick.rect
+        w, h = r.width, r.height
+        dx, dy = self.deltax, self.deltay
+        for nrow in range(len(self.rows)):
+            row = self.rows[nrow]
+            for ncol in range(len(row)):
+                col = row[ncol]
+                if col == 'z':
+                    self.dots.append(pygame.Rect(ncol * dx, nrow * dy, w, h))
+
+    def fill_powerpills(self):
+        r = self.brick.rect
+        w, h = r.width, r.height
+        dx, dy = self.deltax, self.deltay
+        for nrow in range(len(self.rows)):
+            row = self.rows[nrow]
+            for ncol in range(len(row)):
+                col = row[ncol]
+                if col == 'p':
+                    self.powerpills.append(pygame.Rect(ncol * dx, nrow * dy, w, h))
+
     def blitme(self):
         try:
             if self.first:
-                x_change = 300
-                y_change = 4
+                x_change = 320
+                y_change = 100
                 self.first = False
             else:
                 x_change = 0
