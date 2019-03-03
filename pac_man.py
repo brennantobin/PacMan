@@ -24,11 +24,10 @@ pacman2 = PacMan(screen, pacmen, ghosts)
 pacman.is_big = True
 pacmen.add(pacman)
 
-scoreboard = Scoreboard(screen)
+scoreboard = Scoreboard(screen, pacmen, ghosts)
 # maze = Maze(screen, 1, 'pacmanportalmaze.txt', 'block_blue', 'shield', 'dot')
 maze = Maze(screen, mazefile='pacmanportalmaze.txt', brickfile='square', shieldfile='shield',
             dotfile='dot', powerpillfile='powerpill')
-
 
 
 def run_game():
@@ -42,8 +41,8 @@ def run_game():
             pacmen.update()
             ghosts.update()
             screen.start_screen(buttons, play_button, score_button, pacman, pacmen, ghosts)
-            events.check_events(buttons, play_button, score_button, back_button, pacman2, pacmen,
-                                ghosts, screen)
+            events.check_events(buttons, play_button, score_button, back_button, pacmen,
+                                ghosts, screen, scoreboard)
 
             if len(pacmen) == 1:
                 for pacman1 in pacmen:
@@ -97,8 +96,8 @@ def run_game():
             ghosts.empty()
             screen.update(pacmen, ghosts)
             screen.score_screen(buttons, back_button)
-            events.check_events(buttons, play_button, score_button, back_button, pacman2, pacmen,
-                                ghosts, screen)
+            events.check_events(buttons, play_button, score_button, back_button, pacmen,
+                                ghosts, screen, scoreboard)
 
         if screen.game_active:
             if screen.reset_game:
@@ -111,22 +110,24 @@ def run_game():
                     ghosts.add(Ghost(screen, ghost_counter + color))
                     ghost_counter += 15
                 for ghost in ghosts:
-                    ghost.change_location(540 + location_counter, 400)
+                    ghost.change_location(580 + location_counter, 350)
+                    ghost.ismoving_up = True
+                    ghost.ismoving = True
                     location_counter += 30
                 pacman3 = PacMan(screen, pacmen, ghosts)
-                pacman3.change_location(590, 585)
+                pacman3.change_location(625, 585)
                 pacmen.add(pacman3)
                 screen.reset_game = False
             ghosts.update()
             pacmen.update()
-            screen.game_screen(maze)
-            events.check_events(buttons, play_button, score_button, back_button, pacman2, pacmen,
-                                ghosts, screen)
+            screen.game_screen(maze, scoreboard)
+            events.check_events(buttons, play_button, score_button, back_button, pacmen,
+                                ghosts, screen, scoreboard)
             screen.update(pacmen, ghosts)
 
             events.check_pacman_collision(pacmen, ghosts)
             for i in pacmen:
-                events.hit_block(i, maze, ghosts)
+                events.hit_block(scoreboard, i, maze, ghosts)
 
 
 run_game()

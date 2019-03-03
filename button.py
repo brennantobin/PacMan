@@ -28,11 +28,15 @@ class Button(Sprite):
         self.screen.screen.fill(self.button_color, self.rect)
         self.screen.screen.blit(self.msg_image, self.msg_image_rect)
 
-    def check_play_button(self, mouse_x, mouse_y):
+    def check_play_button(self, mouse_x, mouse_y, scoreboard):
         button_clicked = self.rect.collidepoint(mouse_x, mouse_y)
         if button_clicked and not self.screen.game_active:
             pygame.mouse.set_visible(False)
             self.screen.game_active = True
+            scoreboard.prep_score()
+            scoreboard.prep_high_score()
+            scoreboard.prep_level()
+            scoreboard.prep_pacman()
 
     def check_score_button(self, mouse_x, mouse_y, buttons, back_button):
         button_clicked = self.rect.collidepoint(mouse_x, mouse_y)

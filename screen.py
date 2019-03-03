@@ -69,9 +69,10 @@ class Screen:
         buttons.update()
         pygame.display.flip()
 
-    def game_screen(self, maze):
+    def game_screen(self, maze, scoreboard):
         self.bg_color = (0, 0, 0)
         maze.blitme()
+        scoreboard.show_score()
         pygame.display.flip()
 
     def make_title(self, title, font_size, color, y_variant, x_variant):

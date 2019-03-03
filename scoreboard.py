@@ -1,10 +1,18 @@
 import pygame.font
+from pygame.sprite import Group
+from pacman import PacMan
 
 
 class Scoreboard:
-    def __init__(self, screen):
+    def __init__(self, screen, pacmen, ghosts):
         self.screen = screen
+        self.pacmen = pacmen
+        self.ghosts = ghosts
+        self.life = 3
         self.screen_rect = screen.screen.get_rect()
+
+        self.dot_points = 10
+        # self.ghost_points
 
         self.reset_stats()
         self.game_active = False
@@ -19,7 +27,7 @@ class Scoreboard:
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
-        # self.prep_ships()
+        self.prep_pacman()
 
     def get_score(self):
         return int(round(self.score, -1))
@@ -34,38 +42,41 @@ class Scoreboard:
         self.score_rect.top = 20
 
     def show_score(self):
-        self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blit(self.high_score_image, self.high_score_rect)
-        self.screen.blit(self.level_image, self.level_rect)
-        # self.ships.draw(self.screen)
+        if self.score > self.high_score:
+            self.high_score = self.score
+            self.prep_high_score()
+        self.screen.screen.blit(self.score_image, self.score_rect)
+        self.screen.screen.blit(self.high_score_image, self.high_score_rect)
+        self.screen.screen.blit(self.level_image, self.level_rect)
+        self.pacmen_lives.draw(self.screen.screen)
 
     def prep_high_score(self):
         high_score = int(round(self.high_score, -1))
-
         high_score_str = "{:,}".format(high_score)
         self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.screen.bg_color)
-
         self.high_score_rect = self.high_score_image.get_rect()
-        self.high_score_rect.centerx = self.screen_rect.centerx
-        self.high_score_rect.top = self.score_rect.top
+        self.high_score_rect.centerx = self.score_rect.centerx
+        self.high_score_rect.top = self.score_rect.bottom + 10
 
     def prep_level(self):
         self.level_image = self.font.render(str(self.level), True, self.text_color, self.screen.bg_color)
-
         self.level_rect = self.level_image.get_rect()
         self.level_rect.right = self.score_rect.right
-        self.level_rect.top = self.score_rect.bottom + 10
+        self.level_rect.top = self.score_rect.bottom + 50
 
-    # def prep_ships(self):
-    #     self.ships = Group()
-    #     for ship_number in range(self.stats.ships_left):
-    #         ship = Ship(self.settings, self.screen, self.stats)
-    #         ship.update()
-    #         ship.rect.x = 10 + ship_number * ship.rect.width
-    #         ship.rect.y = 10
-    #         self.ships.add(ship)
+    def prep_pacman(self):
+        self.pacmen_lives = Group()
+        x_location = 5
+        for pacman_number in range(self.pacman_left):
+            pacman = PacMan(self.screen, self.pacmen, self.ghosts)
+            pacman.change_location(x_location, 5)
+            x_location += 5
+            pacman.update()
+            pacman.rect.x = 10 + pacman_number * pacman.rect.width
+            pacman.rect.y = 10
+            self.pacmen_lives.add(pacman)
 
     def reset_stats(self):
-        # self.ships_left = self.settings.ship_limit
+        self.pacman_left = self.life
         self.score = 0
         self.level = 1

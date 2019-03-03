@@ -137,11 +137,11 @@ class Ghost(Sprite):
 
     def moving_up(self):
         if self.ismoving_up:
-            self.rect.y = self.rect.y + self.moving_speed
+            self.rect.y = self.rect.y - self.moving_speed
 
     def moving_down(self):
         if self.ismoving_down:
-            self.rect.y = self.rect.y - self.moving_speed
+            self.rect.y = self.rect.y + self.moving_speed
 
     def moving(self):
         if self.ismoving:

@@ -9,7 +9,18 @@ class PacMan(Sprite):
 
         self.pacmen = pacmen
         self.ghosts = ghosts
-        self.direction = 'right'
+        self.next_direction = ''
+        self.direction = ''
+        self.no_node = False
+        self.right_stopper = False
+        self.left_stopper = False
+        self.up_stopper = False
+        self.down_stopper = False
+        self.dont_stop = False
+        self.right_allowed = False
+        self.left_allowed = False
+        self.up_allowed = False
+        self.down_allowed = False
         # each of these are coordinates to the location and size
         # of the sprite on the sheet
         self.is_big = False
@@ -65,6 +76,55 @@ class PacMan(Sprite):
         self.moving_speed = 4.00
 
     def update(self):
+        if self.screen.game_active:
+            if self.ismoving_right or self.ismoving_left and self.no_node:
+                self.ismoving_up = False
+                self.ismoving_down = False
+            if self.ismoving_up or self.ismoving_down and self.no_node:
+                self.ismoving_right = False
+                self.ismoving_left = False
+            if self.ismoving_right and self.right_stopper:
+                self.ismoving_right = False
+                self.ismoving = False
+                self.change_type(self.right_mid)
+            if self.ismoving_left and self.left_stopper:
+                self.ismoving_left = False
+                self.ismoving = False
+                self.change_type(self.left_mid)
+            if self.ismoving_up and self.up_stopper:
+                self.change_type(self.up_mid)
+                self.ismoving_up = False
+                self.ismoving = False
+            if self.ismoving_down and self.down_stopper:
+                self.ismoving_down = False
+                self.ismoving = False
+                self.change_type(self.down_mid)
+
+            if self.direction == 'right' and self.right_allowed or (self.next_direction == 'right' and self.right_allowed):
+                self.ismoving_down = False
+                self.ismoving_up = False
+                self.ismoving_left = False
+                self.ismoving_right = True
+                self.ismoving = True
+            elif self.direction == 'left' and self.left_allowed or (self.next_direction == 'left' and self.left_allowed):
+                self.ismoving_down = False
+                self.ismoving_up = False
+                self.ismoving_right = False
+                self.ismoving_left = True
+                self.ismoving = True
+            elif self.direction == 'up' and self.up_allowed or (self.next_direction == 'up' and self.up_allowed):
+                self.ismoving_down = False
+                self.ismoving_left = False
+                self.ismoving_right = False
+                self.ismoving_up = True
+                self.ismoving = True
+            elif self.direction == 'down' and self.down_allowed or (self.next_direction == 'down' and self.down_allowed):
+                self.ismoving_up = False
+                self.ismoving_left = False
+                self.ismoving_right = False
+                self.ismoving_down = True
+                self.ismoving = True
+
         self.moving_down()
         self.moving_up()
         self.moving_left()

@@ -2,18 +2,16 @@ import pygame
 import sys
 
 
-def check_events(buttons, play_button, score_button, back_button, pacman, pacmen, ghosts, screen):
+def check_events(buttons, play_button, score_button, back_button, pacmen, ghosts, screen, scoreboard):
     for event in pygame.event.get():
         for pacman in pacmen:
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 check_key_down(event, pacman, screen)
-            #if event.type == pygame.KEYUP:
-            #    check_keyup_events(event, pacman, screen)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                play_button.check_play_button(mouse_x, mouse_y)
+                play_button.check_play_button(mouse_x, mouse_y, scoreboard)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 score_button.check_score_button(mouse_x, mouse_y, buttons, back_button)
@@ -26,49 +24,15 @@ def check_events(buttons, play_button, score_button, back_button, pacman, pacmen
 def check_key_down(event, pacman, screen):
     if screen.game_active:
         if event.key == pygame.K_RIGHT:
-            pacman.ismoving_down = False
-            pacman.ismoving_up = False
-            pacman.ismoving_left = False
-            pacman.ismoving_right = True
-            pacman.ismoving = True
-        elif event.key == pygame.K_LEFT:
-            pacman.ismoving_down = False
-            pacman.ismoving_up = False
-            pacman.ismoving_right = False
-            pacman.ismoving_left = True
-            pacman.ismoving = True
-        elif event.key == pygame.K_UP:
-            pacman.ismoving_down = False
-            pacman.ismoving_left = False
-            pacman.ismoving_right = False
-            pacman.ismoving_up = True
-            pacman.ismoving = True
-        elif event.key == pygame.K_DOWN:
-            pacman.ismoving_up = False
-            pacman.ismoving_left = False
-            pacman.ismoving_right = False
-            pacman.ismoving_down = True
-            pacman.ismoving = True
-        # if event.key == pygame.K_SPACE:
-        #     fire_bullet(settings, screen, ship, bullets, sound)
+            pacman.next_direction = 'right'
+        if event.key == pygame.K_LEFT:
+            pacman.next_direction = 'left'
+        if event.key == pygame.K_UP:
+            pacman.next_direction = 'up'
+        if event.key == pygame.K_DOWN:
+            pacman.next_direction = 'down'
     if event.key == pygame.K_q:
         sys.exit()
-
-
-def check_keyup_events(event, pacman, screen):
-    if screen.game_active:
-        if event.key == pygame.K_RIGHT:
-            pacman.ismoving = False
-            pacman.ismoving_right = False
-        if event.key == pygame.K_LEFT:
-            pacman.ismoving = False
-            pacman.ismoving_left = False
-        if event.key == pygame.K_UP:
-            pacman.ismoving = False
-            pacman.ismoving_up = False
-        if event.key == pygame.K_DOWN:
-            pacman.ismoving = False
-            pacman.ismoving_down = False
 
 
 def check_pacman_collision(pacmen, ghosts):
@@ -102,15 +66,57 @@ def check_pacman_collision(pacmen, ghosts):
                 ghost.ismoving = False
 
 
-def hit_block(pacman, maze, ghosts):
+def hit_block(scoreboard, pacman, maze, ghosts):
+    for i in range(len(maze.bricks)):
+        for rect in maze.barriers:
+            if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):
+                # possible fix ---- now pacman can't hit the walls
+                pacman.ismoving_right = False
+                pacman.ismoving_left = False
+                pacman.ismoving_up = False
+                pacman.ismoving_down = False
+                pacman.ismoving = False
+    # for i in range(len(maze.bricks)):
+    #     for rect in maze.barriers:
+    #         for ghost in ghosts:
+    #             if pygame.Rect.colliderect(ghost.rect, maze.bricks[i]) or pygame.Rect.colliderect(ghost.rect, rect):
+    #                 if ghost.ismoving_right:
+    #                     ghost.rect.centerx -= ghost.moving_speed
+    #                     ghost.ismoving_right = False
+    #                     ghost.ismoving_left = True
+    #                     return
+#
+    #                 if ghost.ismoving_left:
+    #                     ghost.rect.centerx += ghost.moving_speed
+    #                     ghost.ismoving_left = False
+    #                     ghost.ismoving_right = True
+    #                     return
+#
+    # for i in range(len(maze.bricks)):
+    #     for rect in maze.barriers:
+    #         for ghost in ghosts:
+    #             if pygame.Rect.colliderect(ghost.rect, maze.bricks[i]) or pygame.Rect.colliderect(ghost.rect, rect):
+    #                 if ghost.ismoving_up:
+    #                     ghost.rect.centerx -= ghost.moving_speed
+    #                     ghost.ismoving_up = False
+    #                     ghost.ismoving_down = True
+    #                     return
+#
+    #                 if ghost.ismoving_down:
+    #                     ghost.rect.centerx += ghost.moving_speed
+    #                     ghost.ismoving_down = False
+    #                     ghost.ismoving_up = True
+    #                     return
+#
     k = len(maze.dots)
+    if k == 0:
+        scoreboard.level += 1
+        scoreboard.prep_level()
     for j in range(k):
         if pygame.Rect.colliderect(pacman.rect, maze.dots[j]):
             del(maze.dots[j])
-            # pacman.waka.play()
-            # ai_settings.score += 50 * ai_settings.level
-            # if ai_settings.score > ai_settings.hs:
-            #     ai_settings.hs = ai_settings.score
+            scoreboard.score += scoreboard.dot_points
+            scoreboard.prep_score()
             break
     for l in range(len(maze.powerpills)):
         if pygame.Rect.colliderect(pacman.rect, maze.powerpills[l]):
@@ -120,36 +126,202 @@ def hit_block(pacman, maze, ghosts):
                 ghost.is_blue = True
             break
 
-    for i in range(len(maze.bricks)):
-        for rect in maze.barriers:
-            if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):
-                # possible fix ---- find if it collides with top bottom left or right of the pacman
-                if pacman.ismoving_right:
-                    pacman.rect.centerx -= pacman.moving_speed
-                    pacman.ismoving_right = False
-                    pacman.ismoving_left = True
-                    return
-                    # pacman.moving_right = False
-                if pacman.ismoving_left:
-                    pacman.rect.centerx += pacman.moving_speed
-                    pacman.ismoving_left = False
-                    pacman.ismoving_right = True
-                    return
-                    # pacman.moving_left = False
+    for l in range(len(maze.a)):
+        if pygame.Rect.colliderect(pacman.rect, maze.a[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = False
+            pacman.up_allowed = False
+            pacman.down_allowed = False
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            pacman.rect = maze.a[l].rect
+            if pacman.ismoving_right:
+                pacman.right_stopper = True
+            if pacman.next_direction == 'left':
+                pacman.direction = pacman.next_direction
 
-    # i = 0
-    for i in range(len(maze.bricks)):
-        for rect in maze.barriers:
-            if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):
-                if pacman.ismoving_up:
-                    pacman.rect.centery += pacman.moving_speed
-                    pacman.ismoving_up = False
-                    pacman.ismoving_down = True
-                    return
-                    # pacman.moving_up = False
-                if pacman.ismoving_down:
-                    pacman.rect.centery -= pacman.moving_speed
-                    pacman.ismoving_down = False
-                    pacman.ismoving_up = True
-                    return
-                    # pacman.moving_down = False
+    for l in range(len(maze.b)):
+        if pygame.Rect.colliderect(pacman.rect, maze.b[l]):
+            pacman.left_allowed = False
+            pacman.right_allowed = True
+            pacman.up_allowed = False
+            pacman.down_allowed = False
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_left:
+                pacman.left_stopper = True
+            if pacman.next_direction == 'right':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.c)):
+        if pygame.Rect.colliderect(pacman.rect, maze.c[l]):
+            pacman.dont_stop = True
+            pacman.left_allowed = False
+            pacman.right_allowed = False
+            pacman.up_allowed = True
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.next_direction == 'up' or pacman.next_direction == 'down':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.d)):
+        if pygame.Rect.colliderect(pacman.rect, maze.d[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = False
+            pacman.up_allowed = True
+            pacman.down_allowed = False
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_down:
+                pacman.down_stopper = True
+            if pacman.ismoving_right:
+                pacman.right_stopper = True
+            if pacman.next_direction == 'up' or pacman.next_direction == 'left':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.e)):
+        if pygame.Rect.colliderect(pacman.rect, maze.e[l]):
+            pacman.left_allowed = False
+            pacman.right_allowed = True
+            pacman.up_allowed = True
+            pacman.down_allowed = False
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_down:
+                pacman.down_stopper = True
+            if pacman.ismoving_left:
+                pacman.left_stopper = True
+            if pacman.next_direction == 'right' or pacman.next_direction == 'up':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.f)):
+        if pygame.Rect.colliderect(pacman.rect, maze.f[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = False
+            pacman.up_allowed = False
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_up:
+                pacman.up_stopper = True
+            if pacman.ismoving_right:
+                pacman.right_stopper = True
+            if pacman.next_direction == 'left' or pacman.next_direction == 'down':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.g)):
+        if pygame.Rect.colliderect(pacman.rect, maze.g[l]):
+            pacman.left_allowed = False
+            pacman.right_allowed = True
+            pacman.up_allowed = False
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_up:
+                pacman.up_stopper = True
+            if pacman.ismoving_left:
+                pacman.left_stopper = True
+            if pacman.next_direction == 'right' or pacman.next_direction == 'down':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.h)):
+        if pygame.Rect.colliderect(pacman.rect, maze.h[l]):
+            pacman.rect.center = (maze.h[l]).center
+            pacman.left_allowed = True
+            pacman.right_allowed = True
+            pacman.up_allowed = False
+            pacman.down_allowed = False
+            pacman.dont_stop = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.next_direction == 'left' or pacman.next_direction == 'right':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.i)):
+        if pygame.Rect.colliderect(pacman.rect, maze.i[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = True
+            pacman.up_allowed = True
+            pacman.down_allowed = False
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_down:
+                pacman.down_stopper = True
+            if pacman.next_direction != 'down':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.j)):
+        if pygame.Rect.colliderect(pacman.rect, maze.j[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = True
+            pacman.up_allowed = False
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_up:
+                pacman.up_stopper = True
+            if pacman.next_direction != 'up':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.k)):
+        if pygame.Rect.colliderect(pacman.rect, maze.k[l]):
+            pacman.left_allowed = False
+            pacman.right_allowed = True
+            pacman.up_allowed = True
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_left:
+                pacman.left_stopper = True
+            if pacman.next_direction != 'left':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.l)):
+        if pygame.Rect.colliderect(pacman.rect, maze.l[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = False
+            pacman.up_allowed = True
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            if pacman.ismoving_right:
+                pacman.right_stopper = True
+            if pacman.next_direction != 'right':
+                pacman.direction = pacman.next_direction
+
+    for l in range(len(maze.m)):
+        if pygame.Rect.colliderect(pacman.rect, maze.m[l]):
+            pacman.left_allowed = True
+            pacman.right_allowed = True
+            pacman.up_allowed = True
+            pacman.down_allowed = True
+            pacman.right_stopper = False
+            pacman.left_stopper = False
+            pacman.up_stopper = False
+            pacman.down_stopper = False
+            pacman.direction = pacman.next_direction
