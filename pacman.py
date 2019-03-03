@@ -9,7 +9,7 @@ class PacMan(Sprite):
 
         self.pacmen = pacmen
         self.ghosts = ghosts
-
+        self.direction = 'right'
         # each of these are coordinates to the location and size
         # of the sprite on the sheet
         self.is_big = False

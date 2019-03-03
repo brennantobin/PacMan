@@ -10,6 +10,7 @@ class Screen:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.rect = self.screen.get_rect()
         self.game_active = False
+        self.reset_game = True
         self.score_active = False
         self.semiactive = False
         self.count = 0
@@ -68,8 +69,10 @@ class Screen:
         buttons.update()
         pygame.display.flip()
 
-    def game_screen(self):
+    def game_screen(self, maze):
         self.bg_color = (0, 0, 0)
+        maze.blitme()
+        pygame.display.flip()
 
     def make_title(self, title, font_size, color, y_variant, x_variant):
         font = pygame.font.SysFont(None, font_size)
@@ -173,7 +176,4 @@ class Screen:
                     if ghost.rect.left >= 10 + self.rect.right:
                         ghosts.empty()
 
-    def reset(self, pacmen, ghosts):
-        pacmen.empty()
-        ghosts.empty()
-        self.game_active = True
+

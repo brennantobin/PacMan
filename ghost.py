@@ -42,8 +42,8 @@ class Ghost(Sprite):
         self.eye_up = (163, 81, 15, 15)
         self.eye_down = (180, 81, 15, 15)
 
-        self.position = self.white
-        self.location_x = -5
+        self.position = self.up
+        self.location_x = 100
         self.location_y = 220
         self.screen = screen
         self.sprite_sheet = SpriteSheet('sprites/pacman.png')
