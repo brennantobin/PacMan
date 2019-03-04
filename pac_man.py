@@ -31,6 +31,9 @@ maze = Maze(screen, mazefile='pacmanportalmaze.txt', brickfile='square', shieldf
             dotfile='dot', powerpillfile='powerpill')
 node_maze = Maze(screen, mazefile='nodes.txt', brickfile='square', shieldfile='shield',
                  dotfile='dot', powerpillfile='powerpill')
+dijkstra_nodes = Maze(screen, mazefile='dijkstra.txt', brickfile='square', shieldfile='shield',
+                      dotfile='dot', powerpillfile='powerpill')
+dijkstra_nodes.dijkstra_fill()
 
 
 print(dijkstra.dijkstra('aA', 'cC'))
@@ -124,7 +127,7 @@ def run_game():
                 screen.reset_game = False
             ghosts.update()
             pacmen.update()
-            screen.game_screen(maze, node_maze, scoreboard)
+            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard)
             events.check_events(buttons, play_button, score_button, back_button, pacmen,
                                 ghosts, screen, scoreboard)
             screen.update(pacmen, ghosts)

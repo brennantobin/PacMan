@@ -16,6 +16,7 @@ class Maze:
             self.dots = []
             self.powerpills = []
             self.barriers = []
+            self.dijkstra_nodes = []
 
             self.a = []
             self.b = []
@@ -37,6 +38,7 @@ class Maze:
             self.powerpill = ImageRect(screen, powerpillfile, 15, 15)
             self.barrier = ImageRect(screen, shieldfile, sz, sz)
             self.node = ImageRect(screen, 'node', 1, 1)
+            self.dijkstra_node = ImageRect(screen, 'dijkstra_node', 15, 15)
             self.deltax = self.deltay = Maze.BRICK_SIZE
 
             self.first = True
@@ -110,6 +112,17 @@ class Maze:
                 if col == 'p':
                     self.powerpills.append(pygame.Rect(ncol * dx, nrow * dy, w, h))
 
+    def dijkstra_fill(self):
+        r = self.brick.rect
+        w, h = r.width, r.height
+        dx, dy = self.deltax, self.deltay
+        for nrow in range(len(self.rows)):
+            row = self.rows[nrow]
+            for ncol in range(len(row)):
+                col = row[ncol]
+                if col == 'N':
+                    self.dijkstra_nodes.append(pygame.Rect(ncol * dx, nrow * dy, w, h))
+
     def blitme(self):
         try:
             if self.first:
@@ -135,6 +148,10 @@ class Maze:
                 rect.x += x_change
                 rect.y += y_change
                 self.screen.blit(self.barrier.image, rect)
+            for rect in self.dijkstra_nodes:
+                rect.x += x_change
+                rect.y += y_change
+                self.screen.blit(self.dijkstra_node.image, rect)
             for rect in self.a:
                 rect.x += x_change
                 rect.y += y_change

@@ -70,10 +70,11 @@ class Screen:
         buttons.update()
         pygame.display.flip()
 
-    def game_screen(self, maze, node_maze, scoreboard):
+    def game_screen(self, maze, node_maze, dijkstra_nodes, scoreboard):
         self.bg_color = (0, 0, 0)
         maze.blitme()
         node_maze.blitme()
+        dijkstra_nodes.blitme()
         scoreboard.show_score()
         pygame.display.flip()
 

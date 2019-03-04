@@ -1,0 +1,53 @@
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X.....................XX.....................X
+X.N-------N---------N.XX.N---------N-------N.X   a
+X.|.......|.........|.XX.|.........|.......|.X
+X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
+X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
+X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
+X.|.......|.........|....|.........|.......|.X
+X.N-------N----N----N--N-N----N----N-------N.X    b
+X.|.......|....|..............|....|.......|.X
+X.|.XXXXX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XXXXX.|.X
+X.| XXXXX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XXXXX.|.X
+X.|.......|.XX.|......XX......|.XX.|.......|.X
+X.N-------N.XX.N----N.XX.N----N.XX.N-------N.X    c
+X.........|.XX......|.XX.|......XX.|.........X
+XXXXXXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXXXXXX
+........X.|.XXXXXXX.|.XX.|.XXXXXXX.|.X........
+........X.|.XX......|....|......XX.|.X........
+........X.|.XX.N----N--N-N----N.XX.|.X........    d
+........X.|.XX.|.......|......|.XX.|.X........
+........X.|.XX.|.XXXXss|sXXXX.|.XX.|.X........
+XXXXXXXXX.|.XX.|.XN....|...NX.|.XX.|.XXXXXXXXX    e
+X.........|....|.X|....|...|X.|....|.........X
+X.N-------N----N.XN....N...NX.N----N---------X    f
+X.........|....|.X|....|...|X.|....|.........X
+XXXXXXXXX.|.XX.|.XN----N---NX.|.XX.|.XXXXXXXXX    g
+........X.|.XX.|.XXXXXXXXXXXX.|.XX.|.X........
+........X.|.XX.|..............|.XX.|.X........
+........X.|.XX.N--------------N.XX.|.X........    h
+........X.|.XX.|..............|.XX.|.X........
+........X.|.XX.|.XXXXXXXXXXXX.|.XX.|.X........
+XXXXXXXXX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XXXXXXXXX
+X.........|....|......XX......|....|.........X
+X.N-------N----N----N.XX.N----N----N-------N.X    i
+X.|.......|.........|.XX.|.........|.......|.X
+X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
+X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
+X.|....XX.|.........|....|.........|.XX....|.X
+X.N--N.XX.N----N----N--N-N----N----N.XX.N--N.X    j
+X....|.XX.|....|..............|....|.XX.|....X
+XXXX.|.XX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XX.|.XXXX
+XXXX.|.XX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XX.|.XXXX
+X....|....|.XX.|......XX......|.XX.|....|....X
+X.N--N----N.XX.N----N.XX.N----N.XX.N----N--N.X    k
+X.|.........XX......|.XX.|......XX.........|.X
+X.|.XXXXXXXXXXXXXX..|.XX.|.XXXXXXXXXXXXXXX.|.X
+X.|.XXXXXXXXXXXXXX..|.XX.|.XXXXXXXXXXXXXXX.|.X
+X.|.................|....|.................|.X
+X.N-----------------N----N-----------------N.X    l
+X............................................X
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+  A  B    C   D     E  F G    H    I    J  K
