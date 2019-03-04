@@ -1,5 +1,6 @@
 import pygame
 import events
+import dijkstra
 from screen import Screen
 from button import Button
 from pygame.sprite import Group
@@ -29,7 +30,10 @@ scoreboard = Scoreboard(screen, pacmen, ghosts)
 maze = Maze(screen, mazefile='pacmanportalmaze.txt', brickfile='square', shieldfile='shield',
             dotfile='dot', powerpillfile='powerpill')
 node_maze = Maze(screen, mazefile='nodes.txt', brickfile='square', shieldfile='shield',
-            dotfile='dot', powerpillfile='powerpill')
+                 dotfile='dot', powerpillfile='powerpill')
+
+
+print(dijkstra.dijkstra('aA', 'cC'))
 
 
 def run_game():

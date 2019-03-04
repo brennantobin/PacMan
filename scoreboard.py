@@ -21,7 +21,7 @@ class Scoreboard:
         self.score = 0
         self.level = 1
 
-        self.text_color = (30, 30, 30)
+        self.text_color = (100, 0, 0)
         self.font = pygame.font.SysFont(None, 48)
 
         self.prep_score()

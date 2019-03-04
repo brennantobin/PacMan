@@ -111,6 +111,7 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, maze1, maz
     k = len(maze.dots)
     if change_score:
         if k == 0:
+            scoreboard.level += 1
             screen.reset_the_game(maze, scoreboard, pacman, ghosts)
     for j in range(k):
         if pygame.Rect.colliderect(pacman.rect, maze.dots[j]):

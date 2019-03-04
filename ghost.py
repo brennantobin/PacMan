@@ -179,7 +179,6 @@ class Ghost(Sprite):
             if self.last == 0:
                 self.last = now
             if self.last + self.wait_count < now:
-                print(self.position)
                 self.position = self.position[self.animation_counter]
                 self.image = self.sprite_sheet.image_at(self.position, None)
                 self.image = pygame.transform.scale(self.image, (30, 30))
