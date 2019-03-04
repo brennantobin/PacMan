@@ -35,8 +35,13 @@ dijkstra_nodes = Maze(screen, mazefile='dijkstra.txt', brickfile='square', shiel
                       dotfile='dot', powerpillfile='powerpill')
 dijkstra_nodes.dijkstra_fill()
 
-dijkstra_index = [aA, a, ]
-print(dijkstra.dijkstra('aA', 'cC'))
+dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD',
+                  'bE', 'bG', 'bH', 'bI', 'bK', 'cA', 'cC', 'cD', 'cE', 'cG', 'cH',
+                  'cI', 'cK', 'dD', 'dE', 'dF', 'dG', 'dH', 'eE', 'eG', 'fA', 'fC',
+                  'fD', 'fE', 'fG', 'fH', 'fI', 'fK', 'gE', 'gF', 'gG', 'hD', 'hH',
+                  'iA', 'iC', 'iD', 'iE', 'iG', 'iH', 'iI', 'iK', 'jA', 'jB', 'jC', 'jD', 'jE', 'jF',
+                  'jG', 'jH', 'jI', 'jJ', 'jK', 'kA', 'kB', 'kC', 'kD', 'kE', 'kG',
+                  'kH', 'kI', 'kJ', 'kK', 'lA', 'lE', 'lG', 'lK']
 
 
 def run_game():
@@ -109,6 +114,8 @@ def run_game():
                                 ghosts, screen, scoreboard)
 
         if screen.game_active:
+            for ghost in ghosts:
+                print(ghost.is_dead)
             if screen.reset_game:
                 pacmen.empty()
                 ghosts.empty()
@@ -136,8 +143,43 @@ def run_game():
             for i in pacmen:
                 events.hit_block(scoreboard, i, maze, ghosts, True, screen)
                 events.hit_block(scoreboard, i, node_maze, ghosts, False, screen)
-                for ghost in ghosts:
-                    print(events.dijkstra_collisions(ghost, i, dijkstra_nodes))
+                for c in ghosts:
+
+                    index = events.dijkstra_collisions(i, c, dijkstra_nodes)
+                    new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
+                    dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
+                    if len(dijkstra_route) <= 1:
+                        break
+                    curr_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[0])]
+                    next_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[1])]
+                    if (next_node.y-curr_node.y) < (next_node.x-curr_node.x):
+                        if next_node.x < curr_node.x:
+                            c.ismoving_right = True
+                            c.ismoving = True
+                            c.ismoving_up = False
+                            c.ismoving_left = False
+                            c.ismoving_down = False
+                    if (next_node.y - curr_node.y) < (next_node.x - curr_node.x):
+                        if next_node.x > curr_node.x:
+                            c.ismoving_left = True
+                            c.ismoving = True
+                            c.ismoving_up = False
+                            c.ismoving_down = False
+                            c.ismoving_right = False
+
+                    if (next_node.y - curr_node.y) > (next_node.x - curr_node.x):
+                        if next_node.y > curr_node.y:
+                            c.ismoving_up = True
+                            c.ismoving = True
+                            c.ismoving_down = False
+                            c.ismoving_left = False
+                            c.ismoving_right = False
+                        if next_node.y > curr_node.y:
+                            c.ismoving_down = True
+                            c.ismoving = True
+                            c.ismoving_right = False
+                            c.ismoving_up = False
+                            c.ismoving_left = False
 
 
 run_game()

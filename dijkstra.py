@@ -123,4 +123,4 @@ def dijkstra(start, goal):
 
     path.insert(0, start)
     if shortest_distance[goal] != infinity:
-        return str(path)
+        return path
