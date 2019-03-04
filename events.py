@@ -66,7 +66,7 @@ def check_pacman_collision(pacmen, ghosts):
                 ghost.ismoving = False
 
 
-def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, maze1, maze2):
+def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen):
     for i in range(len(maze.bricks)):
         for rect in maze.barriers:
             if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):
@@ -76,38 +76,7 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, maze1, maz
                 pacman.ismoving_up = False
                 pacman.ismoving_down = False
                 pacman.ismoving = False
-    # for i in range(len(maze.bricks)):
-    #     for rect in maze.barriers:
-    #         for ghost in ghosts:
-    #             if pygame.Rect.colliderect(ghost.rect, maze.bricks[i]) or pygame.Rect.colliderect(ghost.rect, rect):
-    #                 if ghost.ismoving_right:
-    #                     ghost.rect.centerx -= ghost.moving_speed
-    #                     ghost.ismoving_right = False
-    #                     ghost.ismoving_left = True
-    #                     return
-#
-    #                 if ghost.ismoving_left:
-    #                     ghost.rect.centerx += ghost.moving_speed
-    #                     ghost.ismoving_left = False
-    #                     ghost.ismoving_right = True
-    #                     return
-#
-    # for i in range(len(maze.bricks)):
-    #     for rect in maze.barriers:
-    #         for ghost in ghosts:
-    #             if pygame.Rect.colliderect(ghost.rect, maze.bricks[i]) or pygame.Rect.colliderect(ghost.rect, rect):
-    #                 if ghost.ismoving_up:
-    #                     ghost.rect.centerx -= ghost.moving_speed
-    #                     ghost.ismoving_up = False
-    #                     ghost.ismoving_down = True
-    #                     return
-#
-    #                 if ghost.ismoving_down:
-    #                     ghost.rect.centerx += ghost.moving_speed
-    #                     ghost.ismoving_down = False
-    #                     ghost.ismoving_up = True
-    #                     return
-#
+
     k = len(maze.dots)
     if change_score:
         if k == 0:
@@ -575,3 +544,16 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, maze1, maz
             pacman.up_stopper = False
             pacman.down_stopper = False
             pacman.direction = pacman.next_direction
+
+
+def dijkstra_collisions(ghost, pacman, maze):
+    pacman_index = 0
+    ghost_index = 0
+    for l in range(len(maze.dijkstra_nodes)):
+        if pygame.Rect.colliderect(pacman.rect, maze.dijkstra_nodes[l]):
+            pacman_index = maze.dijkstra_nodes.index(maze.dijkstra_nodes[l])
+
+    for l in range(len(maze.dijkstra_nodes)):
+        if pygame.Rect.colliderect(ghost.rect, maze.dijkstra_nodes[l]):
+            ghost_index = maze.dijkstra_nodes.index(maze.dijkstra_nodes[l])
+    return [pacman_index, ghost_index]

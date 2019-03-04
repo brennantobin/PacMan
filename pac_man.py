@@ -35,7 +35,7 @@ dijkstra_nodes = Maze(screen, mazefile='dijkstra.txt', brickfile='square', shiel
                       dotfile='dot', powerpillfile='powerpill')
 dijkstra_nodes.dijkstra_fill()
 
-
+dijkstra_index = [aA, a, ]
 print(dijkstra.dijkstra('aA', 'cC'))
 
 
@@ -134,8 +134,10 @@ def run_game():
 
             events.check_pacman_collision(pacmen, ghosts)
             for i in pacmen:
-                events.hit_block(scoreboard, i, maze, ghosts, True, screen, maze, node_maze)
-                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, maze, node_maze)
+                events.hit_block(scoreboard, i, maze, ghosts, True, screen)
+                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen)
+                for ghost in ghosts:
+                    print(events.dijkstra_collisions(ghost, i, dijkstra_nodes))
 
 
 run_game()
