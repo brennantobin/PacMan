@@ -186,3 +186,41 @@ class Ghost(Sprite):
                 self.wait_count += 250
                 if self.animation_counter > 1:
                     self.animation_counter = 0
+
+    def move_ghosts(self, dijkstra_route, dijkstra_dic):
+        print(dijkstra_route)
+        for i in range(len(dijkstra_route)):
+            print(dijkstra_route[i])
+            print(dijkstra_dic.get(dijkstra_route[i]))
+        # if len(dijkstra_route) <= 1:
+        #     break
+        # curr_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[0])]
+        # next_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[1])]
+        # if (next_node.y-curr_node.y) < (next_node.x-curr_node.x):
+        #     if next_node.x < curr_node.x:
+        #         c.ismoving_right = True
+        #         c.ismoving = True
+        #         c.ismoving_up = False
+        #         c.ismoving_left = False
+        #         c.ismoving_down = False
+        # if (next_node.y - curr_node.y) < (next_node.x - curr_node.x):
+        #     if next_node.x > curr_node.x:
+        #         c.ismoving_left = True
+        #         c.ismoving = True
+        #         c.ismoving_up = False
+        #         c.ismoving_down = False
+        #         c.ismoving_right = False
+        #
+        # if (next_node.y - curr_node.y) > (next_node.x - curr_node.x):
+        #     if next_node.y > curr_node.y:
+        #         c.ismoving_up = True
+        #         c.ismoving = True
+        #         c.ismoving_down = False
+        #         c.ismoving_left = False
+        #         c.ismoving_right = False
+        #     if next_node.y > curr_node.y:
+        #         c.ismoving_down = True
+        #         c.ismoving = True
+        #         c.ismoving_right = False
+        #         c.ismoving_up = False
+        #         c.ismoving_left = False

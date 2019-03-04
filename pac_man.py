@@ -35,13 +35,34 @@ dijkstra_nodes = Maze(screen, mazefile='dijkstra.txt', brickfile='square', shiel
                       dotfile='dot', powerpillfile='powerpill')
 dijkstra_nodes.dijkstra_fill()
 
-dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD',
-                  'bE', 'bG', 'bH', 'bI', 'bK', 'cA', 'cC', 'cD', 'cE', 'cG', 'cH',
-                  'cI', 'cK', 'dD', 'dE', 'dF', 'dG', 'dH', 'eE', 'eG', 'fA', 'fC',
-                  'fD', 'fE', 'fG', 'fH', 'fI', 'fK', 'gE', 'gF', 'gG', 'hD', 'hH',
-                  'iA', 'iC', 'iD', 'iE', 'iG', 'iH', 'iI', 'iK', 'jA', 'jB', 'jC', 'jD', 'jE', 'jF',
+dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD', 'bE', 'bG',
+                  'bH', 'bI', 'bK', 'cA', 'cC', 'cD', 'cE', 'cG', 'cH', 'cI', 'cK',
+                  'dD', 'dE', 'dF', 'dG', 'dH', 'eE', 'eG', 'fA', 'fC', 'fD', 'fE',
+                  'fG', 'fH', 'fI', 'fK', 'gE', 'gF', 'gG', 'hD', 'hH', 'iA', 'iC',
+                  'iD', 'iE', 'iG', 'iH', 'iI', 'iK', 'jA', 'jB', 'jC', 'jD', 'jE', 'jF',
                   'jG', 'jH', 'jI', 'jJ', 'jK', 'kA', 'kB', 'kC', 'kD', 'kE', 'kG',
                   'kH', 'kI', 'kJ', 'kK', 'lA', 'lE', 'lG', 'lK']
+# c_x = 0
+# c_y = 0
+# dijkstra_dic = {'aA': (c_x, c_y), 'aC': (c_x, c_y), 'aE': (c_x, c_y), 'aG': (c_x, c_y),
+#                 'aI': (c_x, c_y), 'aK': (c_x, c_y), 'bA': (c_x, c_y), 'bC': (c_x, c_y),
+#                 'bD': (c_x, c_y), 'bE': (c_x, c_y), 'bG': (c_x, c_y), 'bH': (c_x, c_y),
+#                 'bI': (c_x, c_y), 'bK': (c_x, c_y), 'cA': (c_x, c_y), 'cC': (c_x, c_y),
+#                 'cD': (c_x, c_y), 'cE': (c_x, c_y), 'cG': (c_x, c_y), 'cH': (c_x, c_y),
+#                 'cI': (c_x, c_y), 'cK': (c_x, c_y), 'dD': (c_x, c_y), 'dE': (c_x, c_y),
+#                 'dF': (c_x, c_y), 'dG': (c_x, c_y), 'dH': (c_x, c_y), 'eE': (c_x, c_y),
+#                 'eG': (c_x, c_y), 'fA': (c_x, c_y), 'fC': (c_x, c_y), 'fD': (c_x, c_y),
+#                 'fE': (c_x, c_y), 'fG': (c_x, c_y), 'fH': (c_x, c_y), 'fI': (c_x, c_y),
+#                 'fK': (c_x, c_y), 'gE': (c_x, c_y), 'gF': (c_x, c_y), 'gG': (c_x, c_y),
+#                 'hD': (c_x, c_y), 'hH': (c_x, c_y), 'iA': (c_x, c_y), 'iC': (c_x, c_y),
+#                 'iD': (c_x, c_y), 'iE': (c_x, c_y), 'iG': (c_x, c_y), 'iH': (c_x, c_y),
+#                 'iI': (c_x, c_y), 'iK': (c_x, c_y), 'jA': (c_x, c_y), 'jB': (c_x, c_y),
+#                 'jC': (c_x, c_y), 'jD': (c_x, c_y), 'jE': (c_x, c_y), 'jF': (c_x, c_y),
+#                 'jG': (c_x, c_y), 'jH': (c_x, c_y), 'jI': (c_x, c_y), 'jJ': (c_x, c_y),
+#                 'jK': (c_x, c_y), 'kA': (c_x, c_y), 'kB': (c_x, c_y), 'kC': (c_x, c_y),
+#                 'kD': (c_x, c_y), 'kE': (c_x, c_y), 'kG': (c_x, c_y), 'kH': (c_x, c_y),
+#                 'kI': (c_x, c_y), 'kJ': (c_x, c_y), 'kK': (c_x, c_y), 'lA': (c_x, c_y),
+#                 'lE': (c_x, c_y), 'lG': (c_x, c_y), 'lK': (c_x, c_y)}
 
 
 def run_game():
@@ -114,8 +135,6 @@ def run_game():
                                 ghosts, screen, scoreboard)
 
         if screen.game_active:
-            for ghost in ghosts:
-                print(ghost.is_dead)
             if screen.reset_game:
                 pacmen.empty()
                 ghosts.empty()
@@ -143,43 +162,41 @@ def run_game():
             for i in pacmen:
                 events.hit_block(scoreboard, i, maze, ghosts, True, screen)
                 events.hit_block(scoreboard, i, node_maze, ghosts, False, screen)
-                for c in ghosts:
+                # for c in ghosts:
+                #     index = events.dijkstra_collisions(i, c, dijkstra_nodes)
+                #     new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
+                #     dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
+                #     c.move_ghosts(dijkstra_route, dijkstra_index)
+                ghost = Ghost(screen, 65)
+                index = events.dijkstra_collisions(i, ghost, dijkstra_nodes)
+                new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
+                dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
+                c_x = 0
+                c_y = 0
+                for g in range(len(dijkstra_nodes.dijkstra_nodes)):
+                    c_x = dijkstra_nodes.dijkstra_nodes[g].x
+                    c_y = dijkstra_nodes.dijkstra_nodes[g].y
+                dijkstra_dic = {'aA': (c_x, c_y), 'aC': (c_x, c_y), 'aE': (c_x, c_y), 'aG': (c_x, c_y),
+                                'aI': (c_x, c_y), 'aK': (c_x, c_y), 'bA': (c_x, c_y), 'bC': (c_x, c_y),
+                                'bD': (c_x, c_y), 'bE': (c_x, c_y), 'bG': (c_x, c_y), 'bH': (c_x, c_y),
+                                'bI': (c_x, c_y), 'bK': (c_x, c_y), 'cA': (c_x, c_y), 'cC': (c_x, c_y),
+                                'cD': (c_x, c_y), 'cE': (c_x, c_y), 'cG': (c_x, c_y), 'cH': (c_x, c_y),
+                                'cI': (c_x, c_y), 'cK': (c_x, c_y), 'dD': (c_x, c_y), 'dE': (c_x, c_y),
+                                'dF': (c_x, c_y), 'dG': (c_x, c_y), 'dH': (c_x, c_y), 'eE': (c_x, c_y),
+                                'eG': (c_x, c_y), 'fA': (c_x, c_y), 'fC': (c_x, c_y), 'fD': (c_x, c_y),
+                                'fE': (c_x, c_y), 'fG': (c_x, c_y), 'fH': (c_x, c_y), 'fI': (c_x, c_y),
+                                'fK': (c_x, c_y), 'gE': (c_x, c_y), 'gF': (c_x, c_y), 'gG': (c_x, c_y),
+                                'hD': (c_x, c_y), 'hH': (c_x, c_y), 'iA': (c_x, c_y), 'iC': (c_x, c_y),
+                                'iD': (c_x, c_y), 'iE': (c_x, c_y), 'iG': (c_x, c_y), 'iH': (c_x, c_y),
+                                'iI': (c_x, c_y), 'iK': (c_x, c_y), 'jA': (c_x, c_y), 'jB': (c_x, c_y),
+                                'jC': (c_x, c_y), 'jD': (c_x, c_y), 'jE': (c_x, c_y), 'jF': (c_x, c_y),
+                                'jG': (c_x, c_y), 'jH': (c_x, c_y), 'jI': (c_x, c_y), 'jJ': (c_x, c_y),
+                                'jK': (c_x, c_y), 'kA': (c_x, c_y), 'kB': (c_x, c_y), 'kC': (c_x, c_y),
+                                'kD': (c_x, c_y), 'kE': (c_x, c_y), 'kG': (c_x, c_y), 'kH': (c_x, c_y),
+                                'kI': (c_x, c_y), 'kJ': (c_x, c_y), 'kK': (c_x, c_y), 'lA': (c_x, c_y),
+                                'lE': (c_x, c_y), 'lG': (c_x, c_y), 'lK': (c_x, c_y)}
 
-                    index = events.dijkstra_collisions(i, c, dijkstra_nodes)
-                    new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
-                    dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
-                    if len(dijkstra_route) <= 1:
-                        break
-                    curr_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[0])]
-                    next_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[1])]
-                    if (next_node.y-curr_node.y) < (next_node.x-curr_node.x):
-                        if next_node.x < curr_node.x:
-                            c.ismoving_right = True
-                            c.ismoving = True
-                            c.ismoving_up = False
-                            c.ismoving_left = False
-                            c.ismoving_down = False
-                    if (next_node.y - curr_node.y) < (next_node.x - curr_node.x):
-                        if next_node.x > curr_node.x:
-                            c.ismoving_left = True
-                            c.ismoving = True
-                            c.ismoving_up = False
-                            c.ismoving_down = False
-                            c.ismoving_right = False
-
-                    if (next_node.y - curr_node.y) > (next_node.x - curr_node.x):
-                        if next_node.y > curr_node.y:
-                            c.ismoving_up = True
-                            c.ismoving = True
-                            c.ismoving_down = False
-                            c.ismoving_left = False
-                            c.ismoving_right = False
-                        if next_node.y > curr_node.y:
-                            c.ismoving_down = True
-                            c.ismoving = True
-                            c.ismoving_right = False
-                            c.ismoving_up = False
-                            c.ismoving_left = False
+                ghost.move_ghosts(dijkstra_route, dijkstra_dic)
 
 
 run_game()
