@@ -6,7 +6,7 @@ X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
 X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
 X.|.XXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXX.|.X
 X.|.......|.........|....|.........|.......|.X
-X.N-------N----N----N--N-N----N----N-------N.X    b
+X.N-------N----N----N----N----N----N-------N.X    b
 X.|.......|....|..............|....|.......|.X
 X.|.XXXXX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XXXXX.|.X
 X.| XXXXX.|.XX.|.XXXXXXXXXXXX.|.XX.|.XXXXX.|.X
@@ -19,11 +19,11 @@ XXXXXXXXX.|.XXXXXXX.|.XX.|.XXXXXXX.|.XXXXXXXXX
 ........X.|.XX.N----N--N-N----N.XX.|.X........    d
 ........X.|.XX.|.......|......|.XX.|.X........
 ........X.|.XX.|.XXXXss|sXXXX.|.XX.|.X........
-XXXXXXXXX.|.XX.|.XN....|...NX.|.XX.|.XXXXXXXXX    e
-X.........|....|.X|....|...|X.|....|.........X
-X.N-------N----N.XN....N...NX.N----N---------X    f
-X.........|....|.X|....|...|X.|....|.........X
-XXXXXXXXX.|.XX.|.XN----N---NX.|.XX.|.XXXXXXXXX    g
+XXXXXXXXX.|.XX.|.X..N..|.N..X.|.XX.|.XXXXXXXXX    e
+X.........|....|.X..|..|.|..X.|....|.........X
+X.N-------N----N.X..N..|.N..X.N----N-------N.X    f
+X.........|....|.X..|..|.|..X.|....|.........X
+XXXXXXXXX.|.XX.|.X..N--N-N..X.|.XX.|.XXXXXXXXX    g
 ........X.|.XX.|.XXXXXXXXXXXX.|.XX.|.X........
 ........X.|.XX.|..............|.XX.|.X........
 ........X.|.XX.N--------------N.XX.|.X........    h
@@ -50,4 +50,4 @@ X.N-----------------N----N-----------------N.X    l
 X............................................X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-  A  B    C   D     E  F G    H    I    J  K
+  A  B    C    D    E  F G    H    I    J  K

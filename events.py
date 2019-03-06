@@ -547,17 +547,17 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen):
 
 
 def dijkstra_collisions(pacman, ghost, maze):
-    pacman_index = 0
-    ghost_index = 0
+    pacman_index = -1
+    ghost_index = -1
     for l in range(len(maze.dijkstra_nodes)):
         if pygame.Rect.colliderect(pacman.rect, maze.dijkstra_nodes[l]):
             pacman_index = maze.dijkstra_nodes.index(maze.dijkstra_nodes[l])
 
-    for l in range(len(maze.dijkstra_nodes)):
+        print(ghost.rect.y, maze.dijkstra_nodes[l].x)
         if pygame.Rect.colliderect(ghost.rect, maze.dijkstra_nodes[l]):
+            print('yes')
             ghost_index = maze.dijkstra_nodes.index(maze.dijkstra_nodes[l])
-            # if something
-            #     ghost.rect.x = maze.dijkstra_nodes[l].centerx
-            #     ghost.rect.y = maze.dijkstra_nodes[l].centery
+            # ghost.rect.x = maze.dijkstra_nodes[l].centerx
+            # ghost.rect.y = maze.dijkstra_nodes[l].centery
 
     return [pacman_index, ghost_index]

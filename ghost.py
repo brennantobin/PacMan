@@ -79,6 +79,8 @@ class Ghost(Sprite):
         self.wait_count = 100
         self.last = 0
 
+        self.next_route = True
+
     def update(self):
         self.moving_down()
         self.moving_up()
@@ -187,11 +189,49 @@ class Ghost(Sprite):
                 if self.animation_counter > 1:
                     self.animation_counter = 0
 
-    def move_ghosts(self, dijkstra_route, dijkstra_dic):
-        print(dijkstra_route)
-        for i in range(len(dijkstra_route)):
-            print(dijkstra_route[i])
-            print(dijkstra_dic.get(dijkstra_route[i]))
+    def move_ghosts(self, dijkstra_route, dijkstra_graph):
+
+        self.next_route = False
+
+        for i in range(len(dijkstra_route)-1):
+            print(dijkstra_route)
+            current = dijkstra_route[i] # aA
+            print(current)
+            next_destination = dijkstra_route[i+1]
+            destinations = dijkstra_graph.get(dijkstra_route[i]) # dijkstra_route[i] this is aA
+            print(destinations) # aC, bA
+            final_distance = destinations.get(next_destination) # dijkstra_route[i+1] this is bA
+            print(final_distance)
+            done_moving = False
+            if current[0] < next_destination[0] and current[1] == next_destination[1]:
+                print('going down')
+                self.ismoving_down = True
+                self.ismoving_left = False
+                self.ismoving_up = False
+                self.ismoving_right = False
+            if current[0] > next_destination[0] and current[1] == next_destination[1]:
+                print('going up')
+                self.ismoving_up = True
+                self.ismoving_down = False
+                self.ismoving_left = False
+                self.ismoving_right = False
+            if current[1] < next_destination[1] and current[0] == next_destination[0]:
+                print('going right')
+                self.ismoving_right = True
+                self.ismoving_down = False
+                self.ismoving_up = False
+                self.ismoving_left = False
+            if current[1] > next_destination[1] and current[0] == next_destination[0]:
+                print('going left')
+                self.ismoving_left = True
+                self.ismoving_down = False
+                self.ismoving_up = False
+                self.ismoving_right = False
+            print(done_moving)
+            if done_moving:
+                i += 1
+            print(i)
+        self.next_route = True
         # if len(dijkstra_route) <= 1:
         #     break
         # curr_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[0])]

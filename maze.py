@@ -38,7 +38,7 @@ class Maze:
             self.powerpill = ImageRect(screen, powerpillfile, 15, 15)
             self.barrier = ImageRect(screen, shieldfile, sz, sz)
             self.node = ImageRect(screen, 'node', 1, 1)
-            self.dijkstra_node = ImageRect(screen, 'dijkstra_node', 1, 1)
+            self.dijkstra_node = ImageRect(screen, 'dijkstra_node', 15, 15)
             self.deltax = self.deltay = Maze.BRICK_SIZE
 
             self.first = True
@@ -113,7 +113,7 @@ class Maze:
                     self.powerpills.append(pygame.Rect(ncol * dx, nrow * dy, w, h))
 
     def dijkstra_fill(self):
-        r = self.brick.rect
+        r = self.node.rect
         w, h = r.width, r.height
         dx, dy = self.deltax, self.deltay
         for nrow in range(len(self.rows)):
