@@ -16,22 +16,20 @@ class Screen:
         self.count = 0
         self.ghosts_destroyed = 0
         self.reset_game = True
+        self.go_back = False
 
     def update(self, pacmen, ghosts):
-        try:
-            self.screen.fill(self.bg_color)
-            if len(pacmen) > 0:
-                pacmen.draw(self.screen)
-            if len(ghosts) > 0:
-                ghosts.draw(self.screen)
+        self.screen.fill(self.bg_color)
+        if len(pacmen) > 0 or len(ghosts) > 0:
+            pacmen.draw(self.screen)
+            ghosts.draw(self.screen)
             pygame.display.flip()
-        except KeyboardInterrupt:
-            print('Interrupted')
 
     def start_screen(self, buttons, play_button, score_button, pacman, pacmen, ghosts):
         buttons.empty()
         if len(pacmen) == 0:
-            self.make_title('Pac  Man', 100, (255, 255, 255, 255), 200, 600)
+            self.make_title('Pac  Man', 100, (255, 255, 255), 200, 600)
+            return
         buttons.add(play_button)
         buttons.add(score_button)
         if len(pacmen) == 1:
@@ -61,12 +59,16 @@ class Screen:
         pacmen.update()
         buttons.update()
         ghosts.update()
-
         pygame.display.flip()
 
     def score_screen(self, buttons, back_button):
         buttons.empty()
         buttons.add(back_button)
+        self.make_title("High Scores", 48, (255, 255, 255), 200, 600)
+        f = open('highscores.txt', 'r')
+        score = f.read()
+        self.make_title(score, 30, (255, 255, 255), 400, 600)
+        f.close()
         buttons.update()
         pygame.display.flip()
 

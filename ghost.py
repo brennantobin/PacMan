@@ -130,19 +130,19 @@ class Ghost(Sprite):
         self.position = position
 
     def moving_right(self):
-        if self.ismoving_right:
+        if self.ismoving_right and not self.screen.game_active:
             self.rect.x = self.rect.x + self.moving_speed
 
     def moving_left(self):
-        if self.ismoving_left:
+        if self.ismoving_left and not self.screen.game_active:
             self.rect.x = self.rect.x - self.moving_speed
 
     def moving_up(self):
-        if self.ismoving_up:
+        if self.ismoving_up and not self.screen.game_active:
             self.rect.y = self.rect.y - self.moving_speed
 
     def moving_down(self):
-        if self.ismoving_down:
+        if self.ismoving_down and not self.screen.game_active:
             self.rect.y = self.rect.y + self.moving_speed
 
     def moving(self):
@@ -189,78 +189,150 @@ class Ghost(Sprite):
                 if self.animation_counter > 1:
                     self.animation_counter = 0
 
+    def move(self, end):
+        stop = False
+        self.last = 0
+        final_up = self.rect.centery - end
+        final_down = self.rect.centery + end
+        final_right = self.rect.centerx + end
+        final_left = self.rect.centerx - end
+        while not stop:
+            if self.ismoving:
+                if self.ismoving_down:
+                    self.position = [self.down, self.down_in]
+                if self.ismoving_up:
+                    self.position = [self.up, self.up_in]
+                if self.ismoving_right:
+                    self.position = [self.right, self.right_in]
+                if self.ismoving_left:
+                    self.position = [self.left, self.left_in]
+                if self.is_blue:
+                    now = pygame.time.get_ticks()
+                    self.position = [self.blue, self.blue_in]
+                    if self.blue_last == 0:
+                        self.blue_last = now
+                    if self.blue_last + self.blue_wait < now:
+                        self.position = [self.blue, self.white_in]
+                        now_two = pygame.time.get_ticks()
+                        if self.white_last == 0:
+                            self.white_last = now_two
+                        if self.white_last + self.white_wait < now_two:
+                            self.is_blue = False
+                            self.screen.ghosts_destroyed = 0
+                if self.eye and self.ismoving_left:
+                    self.position = [self.eye_left, self.eye_left]
+                if self.eye and self.ismoving_right:
+                    self.position = [self.eye_right, self.eye_right]
+                if self.eye and self.ismoving_up:
+                    self.position = [self.eye_up, self.eye_up]
+                if self.eye and self.ismoving_down:
+                    self.position = [self.eye_down, self.eye_down]
+
+                now = pygame.time.get_ticks()
+                if self.last == 0:
+                    self.last = now
+                if self.last + self.wait_count < now:
+                    self.position = self.position[self.animation_counter]
+                    self.image = self.sprite_sheet.image_at(self.position, None)
+                    self.image = pygame.transform.scale(self.image, (30, 30))
+                    self.animation_counter += 1
+                    self.wait_count += 250
+                    print(self.rect.centerx, final_right)
+                    print(self.rect.centery, final_down)
+                    print(self.ismoving_up)
+                    print(self.ismoving_down)
+                    print(self.ismoving_right)
+                    print(self.ismoving_left)
+                    if self.rect.centery > final_up and self.ismoving_up:
+                        self.rect.centery -= 1
+                        if self.rect.centery <= final_up:
+                            stop = True
+
+                    if self.rect.centery < final_down and self.ismoving_down:
+                        self.rect.centery += 1
+                        if self.rect.centery >= final_down:
+                            stop = True
+                    if self.rect.centerx < final_right and self.ismoving_right:
+                        self.rect.centerx += 1
+                        if self.rect.centerx >= final_right:
+                            stop = True
+                    if self.rect.centerx > final_left and self.ismoving_left:
+                        self.rect.centerx -= 1
+                        if self.rect.centery <= final_left:
+                            stop = True
+                    if self.animation_counter > 1:
+                        self.animation_counter = 0
+
     def move_ghosts(self, dijkstra_route, dijkstra_graph):
 
         self.next_route = False
-
-        for i in range(len(dijkstra_route)-1):
-            print(dijkstra_route)
+        print(dijkstra_route)
+        for i in range(len(dijkstra_route)):
             current = dijkstra_route[i] # aA
-            print(current)
+            # print(current)
             next_destination = dijkstra_route[i+1]
             destinations = dijkstra_graph.get(dijkstra_route[i]) # dijkstra_route[i] this is aA
-            print(destinations) # aC, bA
+            # print(destinations) # aC, bA
             final_distance = destinations.get(next_destination) # dijkstra_route[i+1] this is bA
-            print(final_distance)
+            # print(final_distance)
             done_moving = False
             if current[0] < next_destination[0] and current[1] == next_destination[1]:
                 print('going down')
+                # final_location = self.rect.y + final_distance
+                self.ismoving = True
                 self.ismoving_down = True
                 self.ismoving_left = False
                 self.ismoving_up = False
                 self.ismoving_right = False
+                self.move(final_distance)
+                # while self.rect.y <= final_location:
+                #     self.rect.centery += 1
+                # if self.rect.y >= final_location:
+                #     self.ismoving_down = False
+                #     done_moving = True
             if current[0] > next_destination[0] and current[1] == next_destination[1]:
                 print('going up')
-                self.ismoving_up = True
+                # final_location = self.rect.y - final_distance
+                self.ismoving = True
                 self.ismoving_down = False
                 self.ismoving_left = False
+                self.ismoving_up = True
                 self.ismoving_right = False
+                self.move(final_distance)
+                # while self.rect.y >= final_location:
+                #     self.rect.centery -= 1
+                # if self.rect.y <= final_location:
+                #     self.ismoving_up = False
+                #     done_moving = True
             if current[1] < next_destination[1] and current[0] == next_destination[0]:
                 print('going right')
-                self.ismoving_right = True
+                print(self.rect.x)
+                print(final_distance)
+                # final_location = self.rect.x + final_distance
+                self.ismoving = True
                 self.ismoving_down = False
-                self.ismoving_up = False
                 self.ismoving_left = False
+                self.ismoving_up = False
+                self.ismoving_right = True
+                self.move(final_distance)
+                # while self.rect.x <= final_location:
+                #     self.rect.centerx += 1
+                # if self.rect.x >= final_location:
+                #     self.ismoving_right = False
+                #     done_moving = True
             if current[1] > next_destination[1] and current[0] == next_destination[0]:
                 print('going left')
-                self.ismoving_left = True
+                # final_location = self.rect.x - final_distance
+                self.ismoving = True
                 self.ismoving_down = False
+                self.ismoving_left = True
                 self.ismoving_up = False
                 self.ismoving_right = False
-            print(done_moving)
-            if done_moving:
-                i += 1
-            print(i)
+                self.move(final_distance)
+                # while self.rect.x >= final_location:
+                #     self.rect.centery -= 1
+                # if self.rect.x <= final_location:
+                #     self.ismoving_left = False
+                #     done_moving = True
+
         self.next_route = True
-        # if len(dijkstra_route) <= 1:
-        #     break
-        # curr_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[0])]
-        # next_node = dijkstra_nodes.dijkstra_nodes[dijkstra_index.index(dijkstra_route[1])]
-        # if (next_node.y-curr_node.y) < (next_node.x-curr_node.x):
-        #     if next_node.x < curr_node.x:
-        #         c.ismoving_right = True
-        #         c.ismoving = True
-        #         c.ismoving_up = False
-        #         c.ismoving_left = False
-        #         c.ismoving_down = False
-        # if (next_node.y - curr_node.y) < (next_node.x - curr_node.x):
-        #     if next_node.x > curr_node.x:
-        #         c.ismoving_left = True
-        #         c.ismoving = True
-        #         c.ismoving_up = False
-        #         c.ismoving_down = False
-        #         c.ismoving_right = False
-        #
-        # if (next_node.y - curr_node.y) > (next_node.x - curr_node.x):
-        #     if next_node.y > curr_node.y:
-        #         c.ismoving_up = True
-        #         c.ismoving = True
-        #         c.ismoving_down = False
-        #         c.ismoving_left = False
-        #         c.ismoving_right = False
-        #     if next_node.y > curr_node.y:
-        #         c.ismoving_down = True
-        #         c.ismoving = True
-        #         c.ismoving_right = False
-        #         c.ismoving_up = False
-        #         c.ismoving_left = False

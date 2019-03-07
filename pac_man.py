@@ -76,10 +76,14 @@ def run_game():
             pacmen.update()
             ghosts.update()
             screen.start_screen(buttons, play_button, score_button, pacman, pacmen, ghosts)
-            events.check_events(buttons, play_button, score_button, back_button, pacmen,
-                                ghosts, screen, scoreboard)
+            if len(pacmen) == 0:
+                pacmen.add(pacman)
+                screen.go_back = True
+            for pacman_loop in pacmen:
+                events.check_events(buttons, play_button, score_button, back_button, pacman_loop, pacmen,
+                                    ghosts, screen, scoreboard)
 
-            if len(pacmen) == 1:
+            if len(pacmen) == 1 and not screen.go_back:
                 for pacman1 in pacmen:
                     if pacman1.rect.x >= screen.rect.centerx-50:
                         pacman1.change_type(pacman1.big_mid)
@@ -100,7 +104,8 @@ def run_game():
                         screen.screen_intro(pacman2, ghosts)
                         break
 
-            screen.screen_intro(pacman2, ghosts)
+            if not screen.go_back:
+                screen.screen_intro(pacman2, ghosts)
 
             for ghost in ghosts:
 
@@ -129,10 +134,10 @@ def run_game():
         if screen.score_active:
             pacmen.empty()
             ghosts.empty()
-            screen.update(pacmen, ghosts)
             screen.score_screen(buttons, back_button)
-            events.check_events(buttons, play_button, score_button, back_button, pacmen,
+            events.check_events(buttons, play_button, score_button, back_button, pacman2, pacmen,
                                 ghosts, screen, scoreboard)
+            screen.update(pacmen, ghosts)
 
         if screen.game_active:
             if screen.reset_game:
@@ -146,7 +151,7 @@ def run_game():
                     ghost_counter += 15
                 for ghost in ghosts:
                     if location_counter == 0:
-                        ghost.change_location(605, 328)
+                        ghost.change_location(600, 315)
                     if location_counter == 1:
                         ghost.change_location(615, 400)
                     if location_counter == 2:
@@ -161,8 +166,9 @@ def run_game():
             ghosts.update()
             pacmen.update()
             screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard)
-            events.check_events(buttons, play_button, score_button, back_button, pacmen,
-                                ghosts, screen, scoreboard)
+            for pacman_loop in pacmen:
+                events.check_events(buttons, play_button, score_button, back_button, pacman_loop, pacmen,
+                                    ghosts, screen, scoreboard)
             screen.update(pacmen, ghosts)
 
             events.check_pacman_collision(pacmen, ghosts)
@@ -177,15 +183,15 @@ def run_game():
                 ghost1 = Ghost(screen, 4)
                 for ghost in ghosts:
                     ghost1 = ghost
+                    break
                 # My nodes are off since it is putting the wrong start location into the dijkstra algorithm
                 if ghost1.next_route:
                     index = events.dijkstra_collisions(i, ghost1, dijkstra_nodes)
-                    print(index[0], index[1])
                     if index[0] != -1 and index[1] != -1:
                         new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
                         dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
                 # I should try to only move the ghost after it has completed its route
-                        ghost1.move_ghosts(dijkstra_route, dijkstra.get_graph())
+                        # ghost1.move_ghosts(dijkstra_route, dijkstra.get_graph())
 
 
 run_game()

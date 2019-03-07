@@ -48,4 +48,4 @@ class Button(Sprite):
         button_clicked = self.rect.collidepoint(mouse_x, mouse_y)
         if button_clicked and not self.screen.game_active:
             self.screen.score_active = False
-            self.screen.start_screen(buttons, play_button, back_button, pacman, pacmen, ghosts)
+            # self.screen.start_screen(buttons, play_button, back_button, pacman, pacmen, ghosts)

@@ -2,26 +2,31 @@ import pygame
 import sys
 
 
-def check_events(buttons, play_button, score_button, back_button, pacmen, ghosts, screen, scoreboard):
+def check_events(buttons, play_button, score_button, back_button, pacman, pacmen, ghosts, screen, scoreboard):
     for event in pygame.event.get():
-        for pacman in pacmen:
-            if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT:
+            f_in = open('highscores.txt', 'r')
+            score = int(f_in.read())
+            if score < scoreboard.score:
+                f = open('highscores.txt', 'w')
+                f.write(str(scoreboard.score))
+                f.close()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                check_key_down(event, pacman, screen)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                play_button.check_play_button(mouse_x, mouse_y, scoreboard)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                score_button.check_score_button(mouse_x, mouse_y, buttons, back_button)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                back_button.check_back_button(mouse_x, mouse_y, buttons,
-                                              play_button, score_button, pacman, pacmen, ghosts)
+        if event.type == pygame.KEYDOWN:
+            check_key_down(event, pacman, screen, scoreboard)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            play_button.check_play_button(mouse_x, mouse_y, scoreboard)
+        if event.type == pygame.MOUSEBUTTONDOWN and screen.score_active:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            back_button.check_back_button(mouse_x, mouse_y, buttons,
+                                          play_button, score_button, pacman, pacmen, ghosts)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            score_button.check_score_button(mouse_x, mouse_y, buttons, back_button)
 
 
-def check_key_down(event, pacman, screen):
+def check_key_down(event, pacman, screen, scoreboard):
     if screen.game_active:
         if event.key == pygame.K_RIGHT:
             pacman.next_direction = 'right'
@@ -32,6 +37,15 @@ def check_key_down(event, pacman, screen):
         if event.key == pygame.K_DOWN:
             pacman.next_direction = 'down'
     if event.key == pygame.K_q:
+        start = True
+        f_in = open('highscores.txt', 'r')
+        score = int(f_in.read())
+        if score < scoreboard.score:
+            f = open('highscores.txt', 'w')
+            if start:
+                f.write(str(scoreboard.score))
+                start = False
+            f.close()
         sys.exit()
 
 
@@ -553,11 +567,11 @@ def dijkstra_collisions(pacman, ghost, maze):
         if pygame.Rect.colliderect(pacman.rect, maze.dijkstra_nodes[l]):
             pacman_index = maze.dijkstra_nodes.index(maze.dijkstra_nodes[l])
 
-        print(ghost.rect.y, maze.dijkstra_nodes[l].x)
+        # print(ghost.rect.y, maze.dijkstra_nodes[l].x)
         if pygame.Rect.colliderect(ghost.rect, maze.dijkstra_nodes[l]):
-            print('yes')
+            # print('yes')
             ghost_index = maze.dijkstra_nodes.index(maze.dijkstra_nodes[l])
-            # ghost.rect.x = maze.dijkstra_nodes[l].centerx
-            # ghost.rect.y = maze.dijkstra_nodes[l].centery
+            ghost.rect.x = maze.dijkstra_nodes[l].centerx
+            ghost.rect.y = maze.dijkstra_nodes[l].centery
 
     return [pacman_index, ghost_index]
