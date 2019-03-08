@@ -14,9 +14,17 @@ class Scoreboard:
         self.dot_points = 10
         # self.ghost_points
 
+        self.no_fruit = False
+        self.no_new_fruit = False
+
         self.reset_stats()
         self.game_active = False
-        self.high_score = 0
+
+        f = open('highscores.txt', 'r')
+        score = f.read()
+        self.high_score = int(score)
+        f.close()
+
         self.score_scale = 1.5
         self.score = 0
         self.level = 1

@@ -8,6 +8,7 @@ from pacman import PacMan
 from ghost import Ghost
 from scoreboard import Scoreboard
 from maze import Maze
+from fruit import Fruit
 
 screen = Screen()
 pygame.display.set_caption("Pac Man")
@@ -21,6 +22,8 @@ pacmen = Group()
 ghosts = Group()
 pacman = PacMan(screen, pacmen, ghosts)
 pacman2 = PacMan(screen, pacmen, ghosts)
+
+fruit = Group()
 
 pacman.is_big = True
 pacmen.add(pacman)
@@ -71,11 +74,11 @@ def run_game():
     while True:
 
         if not screen.game_active and not screen.score_active:
-            events.check_pacman_collision(pacmen, ghosts)
+            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen)
             screen.update(pacmen, ghosts)
             pacmen.update()
             ghosts.update()
-            screen.start_screen(buttons, play_button, score_button, pacman, pacmen, ghosts)
+            screen.start_screen(buttons, play_button, score_button, pacmen, ghosts)
             if len(pacmen) == 0:
                 pacmen.add(pacman)
                 screen.go_back = True
@@ -140,6 +143,9 @@ def run_game():
             screen.update(pacmen, ghosts)
 
         if screen.game_active:
+            next_fruit = Fruit(screen, scoreboard.level-1)
+            fruit.empty()
+            fruit.add(next_fruit)
             if screen.reset_game:
                 pacmen.empty()
                 ghosts.empty()
@@ -165,13 +171,13 @@ def run_game():
                 screen.reset_game = False
             ghosts.update()
             pacmen.update()
-            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard)
+            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard, fruit)
             for pacman_loop in pacmen:
                 events.check_events(buttons, play_button, score_button, back_button, pacman_loop, pacmen,
                                     ghosts, screen, scoreboard)
             screen.update(pacmen, ghosts)
 
-            events.check_pacman_collision(pacmen, ghosts)
+            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen)
             for i in pacmen:
                 events.hit_block(scoreboard, i, maze, ghosts, True, screen)
                 events.hit_block(scoreboard, i, node_maze, ghosts, False, screen)

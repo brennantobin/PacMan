@@ -49,7 +49,21 @@ def check_key_down(event, pacman, screen, scoreboard):
         sys.exit()
 
 
-def check_pacman_collision(pacmen, ghosts):
+def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen):
+    collisions = pygame.sprite.groupcollide(pacmen, fruit, False, True)
+    for fruits in collisions.values():
+        for fruit in fruits:
+            if len(maze.dots) in range(25, 50) and not scoreboard.no_fruit:
+                fruit.set_points()
+                scoreboard.score += fruit.points
+                screen.make_title(str(fruit.points), 20, (255, 255, 255), fruit.rect.x, fruit.rect.y)
+                scoreboard.no_fruit = True
+            if len(maze.dots) in range(100, 125) and not scoreboard.no_new_fruit:
+                fruit.set_points()
+                scoreboard.score += fruit.points
+                screen.make_title(str(fruit.points), 20, (255, 255, 255), fruit.rect.x, fruit.rect.y)
+                scoreboard.no_new_fruit = True
+
     kill_ghosts = False
     for ghost in ghosts:
         if ghost.is_blue or ghost.white:
@@ -95,6 +109,8 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen):
     if change_score:
         if k == 0:
             scoreboard.level += 1
+            scoreboard.no_fruit = False
+            scoreboard.no_new_fruit = False
             screen.reset_the_game(maze, scoreboard, pacman, ghosts)
     for j in range(k):
         if pygame.Rect.colliderect(pacman.rect, maze.dots[j]):

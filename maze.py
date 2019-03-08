@@ -38,7 +38,7 @@ class Maze:
             self.powerpill = ImageRect(screen, powerpillfile, 15, 15)
             self.barrier = ImageRect(screen, shieldfile, sz, sz)
             self.node = ImageRect(screen, 'node', 1, 1)
-            self.dijkstra_node = ImageRect(screen, 'dijkstra_node', 15, 15)
+            self.dijkstra_node = ImageRect(screen, 'dijkstra_node', 1, 1)
             self.deltax = self.deltay = Maze.BRICK_SIZE
 
             self.first = True

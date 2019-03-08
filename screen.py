@@ -25,7 +25,7 @@ class Screen:
             ghosts.draw(self.screen)
             pygame.display.flip()
 
-    def start_screen(self, buttons, play_button, score_button, pacman, pacmen, ghosts):
+    def start_screen(self, buttons, play_button, score_button, pacmen, ghosts):
         buttons.empty()
         if len(pacmen) == 0:
             self.make_title('Pac  Man', 100, (255, 255, 255), 200, 600)
@@ -72,9 +72,13 @@ class Screen:
         buttons.update()
         pygame.display.flip()
 
-    def game_screen(self, maze, node_maze, dijkstra_nodes, scoreboard):
+    def game_screen(self, maze, node_maze, dijkstra_nodes, scoreboard, fruit):
         self.bg_color = (0, 0, 0)
         maze.blitme()
+        if len(maze.dots) in range(25, 50) and not scoreboard.no_fruit:
+            fruit.draw(self.screen)
+        if len(maze.dots) in range(100, 125) and not scoreboard.no_new_fruit:
+            fruit.draw(self.screen)
         node_maze.blitme()
         dijkstra_nodes.blitme()
         scoreboard.show_score()
