@@ -1,6 +1,8 @@
 import pygame
 import sys
 from fire_portal import FirePortal
+from orange_portal import OrangePortal
+from blue_portal import BluePortal
 
 
 def check_events(buttons, play_button, score_button, back_button, pacman, pacmen,
@@ -104,13 +106,23 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, soun
                 ghost.ismoving = False
 
 
-def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fire):
+def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fire, orange_portal,
+              blue_portal):
     pygame.init()
 
     for i in range(len(maze.bricks)):
         for bullet in fire:
             if pygame.Rect.colliderect(maze.bricks[i], bullet.rect):
                 fire.empty()
+                if len(orange_portal) == 1 and len(blue_portal) == 1:
+                    blue_portal.empty()
+                    orange_portal.empty()
+                if len(orange_portal) == 0 and len(blue_portal) == 0:
+                    orange = OrangePortal(screen, bullet.rect)
+                    orange_portal.add(orange)
+                elif len(orange_portal) == 1 and len(blue_portal) == 0:
+                    blue = BluePortal(screen, bullet.rect)
+                    blue_portal.add(blue)
 
     for i in range(len(maze.bricks)):
         for rect in maze.barriers:

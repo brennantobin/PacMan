@@ -26,6 +26,8 @@ pacman2 = PacMan(screen, pacmen, ghosts)
 
 fruit = Group()
 fire = Group()
+orange_portal = Group()
+blue_portal = Group()
 sound = Sound()
 
 pacman.is_big = True
@@ -47,28 +49,6 @@ dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD', 'bE', 'b
                   'gE', 'gF', 'gG', 'hD', 'hH', 'iA', 'iC', 'iD', 'iE', 'iG', 'iH', 'iI', 'iK',
                   'jA', 'jB', 'jC', 'jD', 'jE', 'jF', 'jG', 'jH', 'jI', 'jJ', 'jK',
                   'kA', 'kB', 'kC', 'kD', 'kE', 'kG', 'kH', 'kI', 'kJ', 'kK', 'lA', 'lE', 'lG', 'lK']
-
-# c_x = 0
-# c_y = 0
-# dijkstra_dic = {'aA': (c_x, c_y), 'aC': (c_x, c_y), 'aE': (c_x, c_y), 'aG': (c_x, c_y),
-#                 'aI': (c_x, c_y), 'aK': (c_x, c_y), 'bA': (c_x, c_y), 'bC': (c_x, c_y),
-#                 'bD': (c_x, c_y), 'bE': (c_x, c_y), 'bG': (c_x, c_y), 'bH': (c_x, c_y),
-#                 'bI': (c_x, c_y), 'bK': (c_x, c_y), 'cA': (c_x, c_y), 'cC': (c_x, c_y),
-#                 'cD': (c_x, c_y), 'cE': (c_x, c_y), 'cG': (c_x, c_y), 'cH': (c_x, c_y),
-#                 'cI': (c_x, c_y), 'cK': (c_x, c_y), 'dD': (c_x, c_y), 'dE': (c_x, c_y),
-#                 'dF': (c_x, c_y), 'dG': (c_x, c_y), 'dH': (c_x, c_y), 'eE': (c_x, c_y),
-#                 'eG': (c_x, c_y), 'fA': (c_x, c_y), 'fC': (c_x, c_y), 'fD': (c_x, c_y),
-#                 'fE': (c_x, c_y), 'fG': (c_x, c_y), 'fH': (c_x, c_y), 'fI': (c_x, c_y),
-#                 'fK': (c_x, c_y), 'gE': (c_x, c_y), 'gF': (c_x, c_y), 'gG': (c_x, c_y),
-#                 'hD': (c_x, c_y), 'hH': (c_x, c_y), 'iA': (c_x, c_y), 'iC': (c_x, c_y),
-#                 'iD': (c_x, c_y), 'iE': (c_x, c_y), 'iG': (c_x, c_y), 'iH': (c_x, c_y),
-#                 'iI': (c_x, c_y), 'iK': (c_x, c_y), 'jA': (c_x, c_y), 'jB': (c_x, c_y),
-#                 'jC': (c_x, c_y), 'jD': (c_x, c_y), 'jE': (c_x, c_y), 'jF': (c_x, c_y),
-#                 'jG': (c_x, c_y), 'jH': (c_x, c_y), 'jI': (c_x, c_y), 'jJ': (c_x, c_y),
-#                 'jK': (c_x, c_y), 'kA': (c_x, c_y), 'kB': (c_x, c_y), 'kC': (c_x, c_y),
-#                 'kD': (c_x, c_y), 'kE': (c_x, c_y), 'kG': (c_x, c_y), 'kH': (c_x, c_y),
-#                 'kI': (c_x, c_y), 'kJ': (c_x, c_y), 'kK': (c_x, c_y), 'lA': (c_x, c_y),
-#                 'lE': (c_x, c_y), 'lG': (c_x, c_y), 'lK': (c_x, c_y)}
 
 
 def run_game():
@@ -176,9 +156,11 @@ def run_game():
                 pacmen.add(pacman3)
                 screen.reset_game = False
             ghosts.update()
+            # ghosts.draw(screen.screen)
             pacmen.update()
             fire.update()
-            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard, fruit, fire)
+            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard, fruit, fire, orange_portal,
+                               blue_portal)
             for pacman_loop in pacmen:
                 events.check_events(buttons, play_button, score_button, back_button, pacman_loop, pacmen,
                                     ghosts, screen, scoreboard, fire, sound)
@@ -186,8 +168,10 @@ def run_game():
 
             events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound)
             for i in pacmen:
-                events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound, fire)
-                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound, fire)
+                events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound, fire, orange_portal,
+                                 blue_portal)
+                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound, fire, orange_portal,
+                                 blue_portal)
                 # for c in ghosts:
                 #     index = events.dijkstra_collisions(i, c, dijkstra_nodes)
                 #     new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
