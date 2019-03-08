@@ -9,6 +9,7 @@ from ghost import Ghost
 from scoreboard import Scoreboard
 from maze import Maze
 from fruit import Fruit
+from sound import Sound
 
 screen = Screen()
 pygame.display.set_caption("Pac Man")
@@ -24,6 +25,8 @@ pacman = PacMan(screen, pacmen, ghosts)
 pacman2 = PacMan(screen, pacmen, ghosts)
 
 fruit = Group()
+
+sound = Sound()
 
 pacman.is_big = True
 pacmen.add(pacman)
@@ -66,7 +69,7 @@ dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD', 'bE', 'b
 #                 'kD': (c_x, c_y), 'kE': (c_x, c_y), 'kG': (c_x, c_y), 'kH': (c_x, c_y),
 #                 'kI': (c_x, c_y), 'kJ': (c_x, c_y), 'kK': (c_x, c_y), 'lA': (c_x, c_y),
 #                 'lE': (c_x, c_y), 'lG': (c_x, c_y), 'lK': (c_x, c_y)}
-
+sound.background_music()
 
 def run_game():
     pygame.init()
@@ -74,6 +77,7 @@ def run_game():
     while True:
 
         if not screen.game_active and not screen.score_active:
+
             events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen)
             screen.update(pacmen, ghosts)
             pacmen.update()
@@ -143,6 +147,7 @@ def run_game():
             screen.update(pacmen, ghosts)
 
         if screen.game_active:
+
             next_fruit = Fruit(screen, scoreboard.level-1)
             fruit.empty()
             fruit.add(next_fruit)
@@ -179,8 +184,8 @@ def run_game():
 
             events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen)
             for i in pacmen:
-                events.hit_block(scoreboard, i, maze, ghosts, True, screen)
-                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen)
+                events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound)
+                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound)
                 # for c in ghosts:
                 #     index = events.dijkstra_collisions(i, c, dijkstra_nodes)
                 #     new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]

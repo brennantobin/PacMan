@@ -94,7 +94,7 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen):
                 ghost.ismoving = False
 
 
-def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen):
+def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound):
     for i in range(len(maze.bricks)):
         for rect in maze.barriers:
             if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):
@@ -114,6 +114,7 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen):
             screen.reset_the_game(maze, scoreboard, pacman, ghosts)
     for j in range(k):
         if pygame.Rect.colliderect(pacman.rect, maze.dots[j]):
+            sound.chomp()
             del(maze.dots[j])
             if change_score:
                 scoreboard.score += scoreboard.dot_points
