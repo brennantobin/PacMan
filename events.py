@@ -1,8 +1,10 @@
 import pygame
 import sys
+from fire_portal import FirePortal
 
 
-def check_events(buttons, play_button, score_button, back_button, pacman, pacmen, ghosts, screen, scoreboard):
+def check_events(buttons, play_button, score_button, back_button, pacman, pacmen,
+                 ghosts, screen, scoreboard, fire, sound):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             f_in = open('highscores.txt', 'r')
@@ -13,7 +15,7 @@ def check_events(buttons, play_button, score_button, back_button, pacman, pacmen
                 f.close()
                 sys.exit()
         if event.type == pygame.KEYDOWN:
-            check_key_down(event, pacman, screen, scoreboard)
+            check_key_down(event, pacman, screen, scoreboard, fire, sound)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             play_button.check_play_button(mouse_x, mouse_y, scoreboard)
@@ -26,7 +28,7 @@ def check_events(buttons, play_button, score_button, back_button, pacman, pacmen
             score_button.check_score_button(mouse_x, mouse_y, buttons, back_button)
 
 
-def check_key_down(event, pacman, screen, scoreboard):
+def check_key_down(event, pacman, screen, scoreboard, fire, sound):
     if screen.game_active:
         if event.key == pygame.K_RIGHT:
             pacman.next_direction = 'right'
@@ -36,6 +38,12 @@ def check_key_down(event, pacman, screen, scoreboard):
             pacman.next_direction = 'up'
         if event.key == pygame.K_DOWN:
             pacman.next_direction = 'down'
+        if event.key == pygame.K_SPACE:
+            pygame.init()
+            if len(fire) == 0:
+                bullet = FirePortal(screen, pacman)
+                fire.add(bullet)
+                sound.fire.play()
     if event.key == pygame.K_q:
         start = True
         f_in = open('highscores.txt', 'r')
@@ -96,8 +104,14 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, soun
                 ghost.ismoving = False
 
 
-def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound):
+def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fire):
     pygame.init()
+
+    for i in range(len(maze.bricks)):
+        for bullet in fire:
+            if pygame.Rect.colliderect(maze.bricks[i], bullet.rect):
+                fire.empty()
+
     for i in range(len(maze.bricks)):
         for rect in maze.barriers:
             if pygame.Rect.colliderect(pacman.rect, maze.bricks[i]) or pygame.Rect.colliderect(pacman.rect, rect):

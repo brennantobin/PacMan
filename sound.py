@@ -11,6 +11,7 @@ class Sound:
         self.hit_sound = pygame.mixer.Sound('sound/pacman_eatghost.wav')
         self.fruit = pygame.mixer.Sound('sound/pacman_eatfruit.wav')
         self.start_music = pygame.mixer.Sound('sound/pacman_intermission.wav')
+        self.fire = pygame.mixer.Sound("sound/portal_fire.wav")
 
     def chomp(self):
         self.chomp_sound.play()

@@ -46,7 +46,7 @@ class Scoreboard:
         self.score_image = self.font.render(score_str, True, self.text_color, self.screen.bg_color)
 
         self.score_rect = self.score_image.get_rect()
-        self.score_rect.right = self.screen_rect.right - 20
+        self.score_rect.right = self.screen_rect.right - 100
         self.score_rect.top = 20
 
     def show_score(self):
@@ -57,6 +57,7 @@ class Scoreboard:
         self.screen.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.screen.blit(self.level_image, self.level_rect)
         self.pacmen_lives.draw(self.screen.screen)
+        self.screen.make_title("Pac Man", 68, (255, 255, 255), 30, self.screen.rect.centerx + 20)
 
     def prep_high_score(self):
         high_score = int(round(self.high_score, -1))

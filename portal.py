@@ -23,9 +23,12 @@ class Portal:
         self.rect = pygame.Rect(x, y, self.opensize, self.opensize)
         self.isopen = False
         self.isclosed = False
-        self.portal_opening = pygame.mixer.Sound("sounds/portal_opening.wav")
-        self.portal_closing = pygame.mixer.Sound("sounds/portal_closing.wav")
+        self.portal_opening = pygame.mixer.Sound("sound/portal_opening.wav")
+        self.portal_closing = pygame.mixer.Sound("sound/portal_closing.wav")
 
+        self.image = pygame.image.load('sprites/red_block.png')
+        self.image = pygame.transform.scale(self.image, (30, 30))
+        self.rect = pygame.image.get_rect()
 
     def __str__(self): return 'Portal(' + str(self.x) + ',' + str(self.y) +\
                               ', color=' + str(self.color) + ', begin:' + str(self.begin) + ')'

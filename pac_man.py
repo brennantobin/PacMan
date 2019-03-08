@@ -25,7 +25,7 @@ pacman = PacMan(screen, pacmen, ghosts)
 pacman2 = PacMan(screen, pacmen, ghosts)
 
 fruit = Group()
-
+fire = Group()
 sound = Sound()
 
 pacman.is_big = True
@@ -88,7 +88,7 @@ def run_game():
                 screen.go_back = True
             for pacman_loop in pacmen:
                 events.check_events(buttons, play_button, score_button, back_button, pacman_loop, pacmen,
-                                    ghosts, screen, scoreboard)
+                                    ghosts, screen, scoreboard, fire, sound)
 
             if len(pacmen) == 1 and not screen.go_back:
                 for pacman1 in pacmen:
@@ -144,7 +144,7 @@ def run_game():
             ghosts.empty()
             screen.score_screen(buttons, back_button)
             events.check_events(buttons, play_button, score_button, back_button, pacman2, pacmen,
-                                ghosts, screen, scoreboard)
+                                ghosts, screen, scoreboard, fire, sound)
             screen.update(pacmen, ghosts)
 
         if screen.game_active:
@@ -177,16 +177,17 @@ def run_game():
                 screen.reset_game = False
             ghosts.update()
             pacmen.update()
-            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard, fruit)
+            fire.update()
+            screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard, fruit, fire)
             for pacman_loop in pacmen:
                 events.check_events(buttons, play_button, score_button, back_button, pacman_loop, pacmen,
-                                    ghosts, screen, scoreboard)
+                                    ghosts, screen, scoreboard, fire, sound)
             screen.update(pacmen, ghosts)
 
             events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound)
             for i in pacmen:
-                events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound)
-                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound)
+                events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound, fire)
+                events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound, fire)
                 # for c in ghosts:
                 #     index = events.dijkstra_collisions(i, c, dijkstra_nodes)
                 #     new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]

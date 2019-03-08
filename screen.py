@@ -72,7 +72,7 @@ class Screen:
         buttons.update()
         pygame.display.flip()
 
-    def game_screen(self, maze, node_maze, dijkstra_nodes, scoreboard, fruit):
+    def game_screen(self, maze, node_maze, dijkstra_nodes, scoreboard, fruit, fire):
         self.bg_color = (0, 0, 0)
         maze.blitme()
         if len(maze.dots) in range(25, 50) and not scoreboard.no_fruit:
@@ -82,6 +82,7 @@ class Screen:
         node_maze.blitme()
         dijkstra_nodes.blitme()
         scoreboard.show_score()
+        fire.draw(self.screen)
         pygame.display.flip()
 
     def reset_the_game(self, maze, scoreboard, pacman, ghosts):
