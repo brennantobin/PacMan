@@ -1,27 +1,31 @@
 import pygame
+pygame.init()
 
 
 class Sound:
 
     def __init__(self):
         self.stop = False
+        self.chomp_sound = pygame.mixer.Sound('sound/pacman_chomp.wav')
+        self.hit_sound = pygame.mixer.Sound('sound/pacman_death.wav')
+        self.hit_sound = pygame.mixer.Sound('sound/pacman_eatghost.wav')
+        self.fruit = pygame.mixer.Sound('sound/pacman_eatfruit.wav')
+        self.start_music = pygame.mixer.Sound('sound/pacman_intermission.wav')
 
     def chomp(self):
-        pacman_chomp = pygame.mixer.Sound('sounds/pacman_chomp.wav')
-        pacman_chomp.play()
+        self.chomp_sound.play()
+
+    def stop_chomp(self):
+        self.chomp_sound.fadeout(1)
 
     def pacman_hit(self):
-        hit_sound = pygame.mixer.Sound('sounds/pacman_death.wav')
-        hit_sound.play()
+        self.hit_sound.play()
 
     def ghost_hit(self):
-        hit_sound = pygame.mixer.Sound('sounds/pacman_eatghost.wav')
-        hit_sound.play()
+        self.hit_sound.play()
 
     def eat_fruit(self):
-        fruit = pygame.mixer.Sound('sounds/pacman_eatfruit.wav')
-        fruit.play()
+        self.fruit.play()
 
     def background_music(self):
-        start_music = pygame.mixer.Sound('sounds/pacman_intermission.wav')
-        start_music.play()
+        self.start_music.play()

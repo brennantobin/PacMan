@@ -209,5 +209,3 @@ class Screen:
                     ghost.ismoving = True
                     if ghost.rect.left >= 10 + self.rect.right:
                         ghosts.empty()
-
-

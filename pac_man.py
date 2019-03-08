@@ -69,7 +69,7 @@ dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD', 'bE', 'b
 #                 'kD': (c_x, c_y), 'kE': (c_x, c_y), 'kG': (c_x, c_y), 'kH': (c_x, c_y),
 #                 'kI': (c_x, c_y), 'kJ': (c_x, c_y), 'kK': (c_x, c_y), 'lA': (c_x, c_y),
 #                 'lE': (c_x, c_y), 'lG': (c_x, c_y), 'lK': (c_x, c_y)}
-sound.background_music()
+
 
 def run_game():
     pygame.init()
@@ -77,8 +77,8 @@ def run_game():
     while True:
 
         if not screen.game_active and not screen.score_active:
-
-            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen)
+            sound.background_music()
+            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound)
             screen.update(pacmen, ghosts)
             pacmen.update()
             ghosts.update()
@@ -139,6 +139,7 @@ def run_game():
                     screen.introduce_clyde(ghost, ghosts)
 
         if screen.score_active:
+            sound.start_music.fadeout(1000)
             pacmen.empty()
             ghosts.empty()
             screen.score_screen(buttons, back_button)
@@ -147,7 +148,7 @@ def run_game():
             screen.update(pacmen, ghosts)
 
         if screen.game_active:
-
+            sound.start_music.fadeout(1000)
             next_fruit = Fruit(screen, scoreboard.level-1)
             fruit.empty()
             fruit.add(next_fruit)
@@ -182,7 +183,7 @@ def run_game():
                                     ghosts, screen, scoreboard)
             screen.update(pacmen, ghosts)
 
-            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen)
+            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound)
             for i in pacmen:
                 events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound)
                 events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound)
