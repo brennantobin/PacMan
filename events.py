@@ -59,7 +59,19 @@ def check_key_down(event, pacman, screen, scoreboard, fire, sound):
         sys.exit()
 
 
-def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound):
+def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound, orange_portal, blue_portal):
+    collisions = pygame.sprite.groupcollide(orange_portal, pacmen, False, False)
+    for pacmen in collisions.values():
+        for pacman in pacmen:
+            for portal in blue_portal:
+                pacman.change_location(portal.rect.x, portal.rect.y)
+
+    collisions = pygame.sprite.groupcollide(blue_portal, pacmen, False, False)
+    for pacmen in collisions.values():
+        for pacman in pacmen:
+            for portal in orange_portal:
+                pacman.change_location(portal.rect.x, portal.rect.y)
+
     collisions = pygame.sprite.groupcollide(pacmen, fruit, False, True)
     for fruits in collisions.values():
         for fruit in fruits:

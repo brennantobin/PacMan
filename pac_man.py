@@ -58,7 +58,8 @@ def run_game():
 
         if not screen.game_active and not screen.score_active:
             sound.background_music()
-            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound)
+            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound, orange_portal,
+                                          blue_portal)
             screen.update(pacmen, ghosts)
             pacmen.update()
             ghosts.update()
@@ -166,7 +167,8 @@ def run_game():
                                     ghosts, screen, scoreboard, fire, sound)
             screen.update(pacmen, ghosts)
 
-            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound)
+            events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound, orange_portal,
+                                          blue_portal)
             for i in pacmen:
                 events.hit_block(scoreboard, i, maze, ghosts, True, screen, sound, fire, orange_portal,
                                  blue_portal)

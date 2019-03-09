@@ -15,10 +15,24 @@ class OrangePortal(Sprite):
         self.rect.x = bullet_rect.x
         self.rect.y = bullet_rect.y
 
-        self.expand = False
+        self.expand = True
+        self.expansion_counter = 5
         self.compress = False
+        self.compression_counter = 30
 
-    # def update(self):
+    def update(self):
+        if self.expand:
+            self.image = pygame.transform.scale(self.image, (self.expansion_counter, self.expansion_counter))
+            self.expansion_counter += 5
+        if self.expansion_counter >= 30:
+            self.expansion_counter = 0
+            self.expand = False
+        if self.compress:
+            self.image = pygame.transform.scale(self.image, (self.compression_counter, self.compression_counter))
+            self.compression_counter -= 5
+        if self.compression_counter <= 0:
+            self.compress = False
+            self.expand = True
 
     def draw(self):
         # draw the bullet onto the screen

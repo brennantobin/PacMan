@@ -84,6 +84,8 @@ class Screen:
         dijkstra_nodes.blitme()
         scoreboard.show_score()
         fire.draw(self.screen)
+        # orange_portal.update()
+        # blue_portal.update()
         orange_portal.draw(self.screen)
         blue_portal.draw(self.screen)
         pygame.display.flip()
