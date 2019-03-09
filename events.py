@@ -114,14 +114,31 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fir
         for bullet in fire:
             if pygame.Rect.colliderect(maze.bricks[i], bullet.rect):
                 fire.empty()
+                rect = bullet.rect
                 if len(orange_portal) == 1 and len(blue_portal) == 1:
                     blue_portal.empty()
                     orange_portal.empty()
                 if len(orange_portal) == 0 and len(blue_portal) == 0:
-                    orange = OrangePortal(screen, bullet.rect)
+                    if bullet.up:
+                        rect.y += 10
+                    if bullet.down:
+                        rect.y -= 30
+                    if bullet.left:
+                        rect.x += 10
+                    if bullet.right:
+                        rect.x -= 30
+                    orange = OrangePortal(screen, rect)
                     orange_portal.add(orange)
                 elif len(orange_portal) == 1 and len(blue_portal) == 0:
-                    blue = BluePortal(screen, bullet.rect)
+                    if bullet.up:
+                        rect.y += 10
+                    if bullet.down:
+                        rect.y -= 30
+                    if bullet.left:
+                        rect.x += 10
+                    if bullet.right:
+                        rect.x -= 30
+                    blue = BluePortal(screen, rect)
                     blue_portal.add(blue)
 
     for i in range(len(maze.bricks)):

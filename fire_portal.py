@@ -20,17 +20,17 @@ class FirePortal(Sprite):
 
         # you must be moving to fire the portal
         if self.up:
-            self.rect.x = pacman.rect.centerx
+            self.rect.x = pacman.rect.centerx - 10
             self.rect.y = pacman.rect.top
         if self.down:
-            self.rect.x = pacman.rect.centerx
+            self.rect.x = pacman.rect.centerx - 10
             self.rect.y = pacman.rect.bottom
         if self.right:
             self.rect.x = pacman.rect.right
-            self.rect.y = pacman.rect.centery
+            self.rect.y = pacman.rect.centery - 10
         if self.left:
             self.rect.x = pacman.rect.left
-            self.rect.y = pacman.rect.centery
+            self.rect.y = pacman.rect.centery - 10
 
         self.y = float(self.rect.y)
         self.x = float(self.rect.x)
