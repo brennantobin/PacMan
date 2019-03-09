@@ -57,7 +57,7 @@ def run_game():
     while True:
 
         if not screen.game_active and not screen.score_active:
-            sound.background_music()
+            # sound.background_music()
             events.check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, sound, orange_portal,
                                           blue_portal)
             screen.update(pacmen, ghosts)
@@ -120,7 +120,7 @@ def run_game():
                     screen.introduce_clyde(ghost, ghosts)
 
         if screen.score_active:
-            sound.start_music.fadeout(1000)
+            # sound.start_music.fadeout(1000)
             pacmen.empty()
             ghosts.empty()
             screen.score_screen(buttons, back_button)
@@ -129,7 +129,7 @@ def run_game():
             screen.update(pacmen, ghosts)
 
         if screen.game_active:
-            sound.start_music.fadeout(1000)
+            # sound.start_music.fadeout(1000)
             next_fruit = Fruit(screen, scoreboard.level-1)
             fruit.empty()
             fruit.add(next_fruit)
