@@ -25,6 +25,7 @@ class Ghost(Sprite):
         self.is_blue = False
         self.blue_last = 0
         self.blue_wait = 5000
+        self.is_white = False
         self.white_last = 0
         self.white_wait = 1000
         self.white = (163, 65, 15, 15)
@@ -80,6 +81,7 @@ class Ghost(Sprite):
         self.last = 0
 
         self.route = ['dG', 'dH', 'fH', 'hH', 'iH', 'iG', 'jG', 'jF']
+        self.speed = 1
         self.dijkstra_graph = {}
         self.node_count = 1
         self.next_route = True
@@ -178,28 +180,28 @@ class Ghost(Sprite):
             # print(self.final_distance)
             if self.move_count < self.final_distance and self.ismoving_up:
                 # print('yes')
-                self.rect.centery -= 1
+                self.rect.centery -= self.speed
             elif self.move_count >= self.final_distance and self.ismoving_up:
                 # print('no')
                 self.node_count += 1
                 self.move_count = 0
             if self.move_count < self.final_distance and self.ismoving_down:
                 # print('yes')
-                self.rect.centery += 1
+                self.rect.centery += self.speed
             elif self.move_count >= self.final_distance and self.ismoving_down:
                 # print('no')
                 self.node_count += 1
                 self.move_count = 0
             if self.move_count < self.final_distance and self.ismoving_right:
                 # print('yes')
-                self.rect.centerx += 1
+                self.rect.centerx += self.speed
             elif self.move_count >= self.final_distance and self.ismoving_right:
                 # print('no')
                 self.node_count += 1
                 self.move_count = 0
             if self.move_count < self.final_distance and self.ismoving_left:
                 # print('yes')
-                self.rect.centerx -= 1
+                self.rect.centerx -= self.speed
             elif self.move_count >= self.final_distance and self.ismoving_left:
                 # print('no')
                 self.node_count += 1
@@ -248,11 +250,13 @@ class Ghost(Sprite):
                 if self.blue_last == 0:
                     self.blue_last = now
                 if self.blue_last + self.blue_wait < now:
+                    self.is_white = True
                     self.position = [self.blue, self.white_in]
                     now_two = pygame.time.get_ticks()
                     if self.white_last == 0:
                         self.white_last = now_two
                     if self.white_last + self.white_wait < now_two:
+                        self.is_white = False
                         self.is_blue = False
                         self.screen.ghosts_destroyed = 0
             if self.eye and self.ismoving_left:

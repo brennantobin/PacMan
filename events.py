@@ -91,7 +91,7 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, soun
 
     kill_ghosts = False
     for ghost in ghosts:
-        if ghost.is_blue:
+        if ghost.is_blue or ghost.white:
             kill_ghosts = True
     if kill_ghosts:
         collisions = pygame.sprite.groupcollide(pacmen, ghosts, False, False)
@@ -118,7 +118,6 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, soun
                 ghost.ismoving_right = False
                 ghost.ismoving_up = False
             scoreboard.life -= 1
-
 
 
 def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fire, orange_portal,
@@ -172,9 +171,13 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fir
     if change_score:
         if k == 0:
             scoreboard.level += 1
+            for ghost in ghosts:
+                ghost.speed += 1
+                if ghost.speed >= 4:
+                    ghost.speed = 4
             scoreboard.no_fruit = False
             scoreboard.no_new_fruit = False
-            screen.reset_the_game(maze, scoreboard, pacman, ghosts)
+            screen.reset_game = True
     for j in range(k):
         if pygame.Rect.colliderect(pacman.rect, maze.dots[j]):
             if not pygame.mixer.get_busy():
