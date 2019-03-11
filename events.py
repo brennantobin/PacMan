@@ -91,7 +91,7 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, soun
 
     kill_ghosts = False
     for ghost in ghosts:
-        if ghost.is_blue or ghost.white:
+        if ghost.is_blue:
             kill_ghosts = True
     if kill_ghosts:
         collisions = pygame.sprite.groupcollide(pacmen, ghosts, False, False)
@@ -107,16 +107,18 @@ def check_pacman_collision(pacmen, ghosts, fruit, scoreboard, maze, screen, soun
                 # settings.alien_points = explosion.ufo_points
                 # scoreboard.score +=
                 # scoreboard.prep_score()
-
-    for ghost in ghosts:
-        if collisions and not kill_ghosts and not ghost.white and not ghost.eye:
-            for pacmen in collisions.values():
-                for pacman in pacmen:
-                    pacman.is_dead = True
-                    pacman.destroy_pacman()
-
+    else:
+        for pacmen in collisions.values():
+            for pacman in pacmen:
+                pacman.destroy_pacman()
             for ghost in ghosts:
                 ghost.ismoving = False
+                ghost.ismoving_down = False
+                ghost.ismoving_left = False
+                ghost.ismoving_right = False
+                ghost.ismoving_up = False
+            scoreboard.life -= 1
+
 
 
 def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fire, orange_portal,
@@ -185,7 +187,6 @@ def hit_block(scoreboard, pacman, maze, ghosts, change_score, screen, sound, fir
     for l in range(len(maze.powerpills)):
         if pygame.Rect.colliderect(pacman.rect, maze.powerpills[l]):
             del(maze.powerpills[l])
-            # blues.play()
             for ghost in ghosts:
                 ghost.is_blue = True
             break

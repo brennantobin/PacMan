@@ -21,8 +21,19 @@ buttons = Group()
 
 pacmen = Group()
 ghosts = Group()
-pacman = PacMan(screen, pacmen, ghosts)
-pacman2 = PacMan(screen, pacmen, ghosts)
+
+maze = Maze(screen, mazefile='pacmanportalmaze.txt', brickfile='square', shieldfile='shield',
+            dotfile='dot', powerpillfile='powerpill')
+node_maze = Maze(screen, mazefile='nodes.txt', brickfile='square', shieldfile='shield',
+                 dotfile='dot', powerpillfile='powerpill')
+dijkstra_nodes = Maze(screen, mazefile='dijkstra.txt', brickfile='square', shieldfile='shield',
+                      dotfile='dot', powerpillfile='powerpill')
+dijkstra_nodes.dijkstra_fill()
+
+scoreboard = Scoreboard(screen, pacmen, ghosts, maze)
+
+pacman = PacMan(screen, pacmen, ghosts, maze, scoreboard)
+pacman2 = PacMan(screen, pacmen, ghosts, maze, scoreboard)
 
 fruit = Group()
 fire = Group()
@@ -32,16 +43,6 @@ sound = Sound()
 
 pacman.is_big = True
 pacmen.add(pacman)
-
-scoreboard = Scoreboard(screen, pacmen, ghosts)
-
-maze = Maze(screen, mazefile='pacmanportalmaze.txt', brickfile='square', shieldfile='shield',
-            dotfile='dot', powerpillfile='powerpill')
-node_maze = Maze(screen, mazefile='nodes.txt', brickfile='square', shieldfile='shield',
-                 dotfile='dot', powerpillfile='powerpill')
-dijkstra_nodes = Maze(screen, mazefile='dijkstra.txt', brickfile='square', shieldfile='shield',
-                      dotfile='dot', powerpillfile='powerpill')
-dijkstra_nodes.dijkstra_fill()
 
 dijkstra_index = ['aA', 'aC', 'aE', 'aG', 'aI', 'aK', 'bA', 'bC', 'bD', 'bE', 'bG', 'bH', 'bI',
                   'bK', 'cA', 'cC', 'cD', 'cE', 'cG', 'cH', 'cI', 'cK',
@@ -133,6 +134,7 @@ def run_game():
             next_fruit = Fruit(screen, scoreboard.level-1)
             fruit.empty()
             fruit.add(next_fruit)
+            # print(screen.reset_game)
             if screen.reset_game:
                 pacmen.empty()
                 ghosts.empty()
@@ -152,12 +154,14 @@ def run_game():
                     if location_counter == 3:
                         ghost.change_location(650, 390)
                     location_counter += 1
-                pacman3 = PacMan(screen, pacmen, ghosts)
+                pacman3 = PacMan(screen, pacmen, ghosts, maze, scoreboard)
                 pacman3.change_location(597, 585)
                 pacmen.add(pacman3)
+                maze.dots = []
+                maze.fill_dots()
+                maze.first = True
                 screen.reset_game = False
-            ghosts.update()
-            # ghosts.draw(screen.screen)
+
             pacmen.update()
             fire.update()
             screen.game_screen(maze, node_maze, dijkstra_nodes, scoreboard, fruit, fire, orange_portal,
@@ -174,23 +178,15 @@ def run_game():
                                  blue_portal)
                 events.hit_block(scoreboard, i, node_maze, ghosts, False, screen, sound, fire, orange_portal,
                                  blue_portal)
-                # for c in ghosts:
-                #     index = events.dijkstra_collisions(i, c, dijkstra_nodes)
-                #     new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
-                #     dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
-                #     c.move_ghosts(dijkstra_route, dijkstra_index)
-                ghost1 = Ghost(screen, 4)
-                for ghost in ghosts:
-                    ghost1 = ghost
-                    break
-                # My nodes are off since it is putting the wrong start location into the dijkstra algorithm
-                if ghost1.next_route:
-                    index = events.dijkstra_collisions(i, ghost1, dijkstra_nodes)
-                    if index[0] != -1 and index[1] != -1:
-                        new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
-                        dijkstra_route = dijkstra.dijkstra(new_index[1], new_index[0])
-                # I should try to only move the ghost after it has completed its route
-                        # ghost1.move_ghosts(dijkstra_route, dijkstra.get_graph())
+                for c in ghosts:
+                    if c.next_route:
+                        index = events.dijkstra_collisions(i, c, dijkstra_nodes)
+                        if index[0] != -1 and index[1] != -1:
+                            new_index = [(dijkstra_index[index[0]]), (dijkstra_index[index[1]])]
+                            c.route = dijkstra.dijkstra(new_index[1], new_index[0])
+                        c.dijkstra_graph = dijkstra.get_graph()
+
+            ghosts.update()
 
 
 run_game()

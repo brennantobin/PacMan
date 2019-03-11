@@ -34,12 +34,12 @@ x.....................xx.....................x
 x.g..h..h.m.hh.i.h..f.xx.g.hh.i.hh.m.h...h.f.x
 x.....................xx.....................x
 x.c.xxxxx.c.xxxxxxx.c.xx.c.xxxxxxx.c.xxxxx.c.x
-x.c.xxxxx.c.xxxxxxx.c.xx.c.xxxxxxx.c.xxxxx.c.x
+x...xxxxx.c.xxxxxxx.c.xx.c.xxxxxxx.c.xxxxx.c.x
 x......xx............................xx......x
-x.e..f.xx.k..h.j..h.i.h..i.h..j.h..l.xx.g..d.x
+x.e...f.x.k..h.j..h.i.h..i.h..j.h..l.x.g...d.x
 x......xx............................xx......x
-xxxx.c.xx.c.xx.c.xxxxxxxxxxxx.c.xx.c.xx.c.xxxx
-xxxx.c.xx.c.xx.c.xxxxxxxxxxxx.c.xx.c.xx.c.xxxx
+xxxx...xx.c.xx.c.xxxxxxxxxxxx.c.xx.c.xx...xxxx
+xxxx...xx.c.xx.c.xxxxxxxxxxxx.c.xx.c.xx...xxxx
 x...........xx........xx........xx...........x
 x.g..i.hh.d.xx.e.h..f.xx.g.hh.d.xx.e.hh.i..f.x
 x...........xx........xx........xx...........x

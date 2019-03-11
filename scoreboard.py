@@ -4,7 +4,8 @@ from pacman import PacMan
 
 
 class Scoreboard:
-    def __init__(self, screen, pacmen, ghosts):
+    def __init__(self, screen, pacmen, ghosts, maze):
+        self.maze = maze
         self.screen = screen
         self.pacmen = pacmen
         self.ghosts = ghosts
@@ -77,7 +78,7 @@ class Scoreboard:
         self.pacmen_lives = Group()
         x_location = 5
         for pacman_number in range(self.pacman_left):
-            pacman = PacMan(self.screen, self.pacmen, self.ghosts)
+            pacman = PacMan(self.screen, self.pacmen, self.ghosts, self.maze, self)
             pacman.change_location(x_location, 5)
             x_location += 5
             pacman.update()

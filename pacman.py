@@ -4,9 +4,11 @@ from pygame.sprite import Sprite
 
 
 class PacMan(Sprite):
-    def __init__(self, screen, pacmen, ghosts):
+    def __init__(self, screen, pacmen, ghosts, maze, scoreboard):
         super(PacMan, self).__init__()
 
+        self.maze = maze
+        self.scoreboard = scoreboard
         self.pacmen = pacmen
         self.ghosts = ghosts
         self.next_direction = ''
@@ -158,7 +160,8 @@ class PacMan(Sprite):
                 self.destroy_wait += 75
                 if self.animate >= 11:
                     self.remove(self.pacmen)
-                    self.screen.reset(self.pacmen, self.ghosts)
+                    # self.screen.reset_the_game(self.maze, self.scoreboard, self, self.ghosts)
+                    self.screen.reset_game = True
 
     def draw(self):
         self.screen.screen.blit(self.image, self.rect)
@@ -224,4 +227,5 @@ class PacMan(Sprite):
         self.ismoving_right = False
         self.ismoving_up = False
         self.is_dead = True
+        self.update()
 
