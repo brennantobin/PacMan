@@ -2,7 +2,7 @@ import pygame.font
 from pygame.sprite import Group
 from pacman import PacMan
 
-
+# helooooooo
 class Scoreboard:
     def __init__(self, screen, pacmen, ghosts, maze):
         self.maze = maze
